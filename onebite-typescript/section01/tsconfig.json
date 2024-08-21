@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext", // 컴파일 모듈 (ESM or CJS)
+    "outDir": "dist", // 컴파일 후 js 파일이 저장될 폴더 이름
+    "strict": false,  // 코드의 엄격함 정도
+    "moduleDetection": "force", // 전역 모듈인 TS를 파일마다 독립된 모듈로 설정.
+  },
+  "include": ["src"],
+}

@@ -1,2 +1,3 @@
-console.log("Hello TypeScript");
-const a: number = 1;
+const a = 1;
+
+// export {}; // 전역 모듈을 취급하는 TS에 대해 이 파일을 독립된 모듈로 선언.
