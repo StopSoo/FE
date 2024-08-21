@@ -1,0 +1,13 @@
+{
+ "compilerOptions": {
+  "target": "ESNext",
+  "module": "ESNext",
+  "outDir": "dist",
+  "strict": true,
+  "moduleDetection": "force", // 모든 ts 파일들을 개별 모듈로 취급.
+ },
+ "ts-node": {
+  "esm": true,
+ },
+ "include": ["src"],
+}
