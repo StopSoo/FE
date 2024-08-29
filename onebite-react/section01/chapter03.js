@@ -1,1 +1,1 @@
-console.log("chapter3");
+console.log("chapter3"); // console에 출력
