@@ -1,11 +1,12 @@
 // 함수
-function greeting () {  // 함수 선언
+// 선언과 호출은 별개임을!
+function greeting() {  // 함수 선언
   console.log("안녕하세요!");
 }
 
 greeting(); // 함수 호출
 
-function getArea (width, height) {  // 매개변수 사용
+function getArea(width, height) {  // 매개변수 사용
   let area = width * height;
 
   console.log(area);
@@ -13,7 +14,7 @@ function getArea (width, height) {  // 매개변수 사용
 
 getArea(10, 20);
 
-function getArea2 (width, height) {
+function getArea2(width, height) {
   let area = width * height;
 
   function another() {  // 중첩 함수
