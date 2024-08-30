@@ -1,4 +1,5 @@
-function funcA () {
+/* 독립적인 함수 선언 */
+function funcA() {
   console.log("funcA");
 }
 
@@ -11,7 +12,7 @@ varA(); // 변수 varA에 담긴 함수 funcA가 호출됨.
 // 2. 변수에 바로 담길 때 선언한 함수의 이름으로는 함수 호출이 불가능.
 // 3. 따라서 함수 이름을 설정하지 않고 선언 가능 => "익명 함수"
 // 4. 이렇게 선언된 변수는 hoisting의 대상이 아님 (!)
-let varB = function () {  
+let varB = function() {  
   console.log("funcB");
 }
 
@@ -24,4 +25,7 @@ let varC = function() {
 }
 
 let varD = () => { return 1; }
-let varE = () => 1; // 단순히 값을 반환하기만 하는 함수라면 이와 같이도 표현 가능.
+let varE = () => 1; // 단순히 값을 반환하기만 하는 함수라면, return을 생략하고 이와 같이도 표현 가능.
+
+// 매개변수가 필요할 경우, 원래 선언하던 방식과 같이 괄호 안에 매개변수를 넣어 사용하면 됨.
+let varF = (value) => value + 1;
