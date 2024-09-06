@@ -1,7 +1,7 @@
 import Link from "next/link";
 import style from './style.module.css';
 
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY; // API를 동적으로 받아오기 위함.
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY + '111'; // API를 동적으로 받아오기 위함.
 
 const getCurrentWeather = async () => { //eslint-disable-line no-unused-vars
   const res = await fetch(
