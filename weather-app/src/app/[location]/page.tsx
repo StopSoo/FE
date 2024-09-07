@@ -4,11 +4,21 @@ import { getForecast } from "@/utils/getForecast";
 type Props = {
   params: {
     location: string
+  },
+  searchParams: { // 위치의 한글 이름을 받음
+    name: string
   }
 }
+// 동적 메타데이터 사용
+export function generateMetadata({ searchParams }: Props) {
+  return {
+    title: `Weather App - ${searchParams.name}`,
+    description: `Let you know weather in ${searchParams.name}`,
+  };
+}
 
-export default async function Detail({ params }: Props) {
-  const name = params.location === 'seoul' ? '서울' : '';
+export default async function Detail({ params, searchParams }: Props) {
+  const name = searchParams.name;
   const res = await getForecast(params.location);
   
   return (
