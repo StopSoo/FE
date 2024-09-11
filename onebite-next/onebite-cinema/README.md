@@ -1,40 +1,152 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 🗓️ MISSION
 
-## Getting Started
+Day02부터 Day08까지 Next.js의 Page Router를 정복해 보는 시간을 가질거에요 ⛳️  
+오늘은 그중의 첫번째 시간으로 Page Router란 무엇인지 살펴보고 라우팅을 설정하는 다양한 방법에 대해 살펴볼 예정이에요
 
-First, run the development server:
+> [전체 진도표 보기](https://winterlood.notion.site/Next-js-2d88c12bf13041dab85068953a5a78a0?pvs=4)
+<br>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## DAY02 미션) 한입-씨네마 프로젝트 생성 & 라우팅 설정하기
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+우리 챌린지에서 앞으로 쭉 활용될 **한입-씨네마** 프로젝트를 새롭게 생성하고 라우팅을 설정합니다.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## 미션 제출 방법
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+미션 제출은 다음 방법중 하나를 선택하시면 됩니다.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. 결과 화면 캡쳐
+   - 페이지 결과물만 주소와 함께 캡쳐하시거나 프로젝트 파일 구조를 함께 캡쳐해주세요
+   - 여러장 올리셔도 됩니다!
+2. GitHub에 프로젝트 업로드 후 링크로 공유
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+> [정답 보기](https://github.com/winterlood/onebite-next-challenge/blob/main/missions/day02/mission/answer)
 
-## Learn More
+## 미션 소개) 한입 씨네마 프로젝트 생성 및 라우팅 설정하기
+![img0](https://github.com/user-attachments/assets/3a7350d7-7cb7-46e4-8fe1-fa14195d0b87)
 
-To learn more about Next.js, take a look at the following resources:
+**한입 씨네마**는 위 그림에 보이시는 것 처럼 영화 리뷰를 제공하는 간단한 사이트로  
+앞으로 여러분께서 미션을 통해 천천히 만들어나가게 될 프로젝트입니다.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+오늘의 미션은 **한입-씨네마** 프로젝트 생성 및 라우팅 설정 입니다.  
+아래 안내드리는 순서에 따라 미션을 수행해주세요
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### 1. 새로운 Next App 생성하기 (Page Router 버전)
 
-## Deploy on Vercel
+강의에서 소개해드린 방법대로 새로운 Next App을 생성하세요
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Page Router를 사용하는 버전으로 생성합니다.
+- 프로젝트 이름은 onebite-cinema 혹은 자유롭게 설정하시면 됩니다.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 2. 라우팅 설정하기
+
+다음과 같이 라우팅을 설정해주세요
+
+- <code>/</code> : 인덱스 페이지
+- <code>/search</code> : 검색 페이지
+- <code>/movie/[id]</code> : 영화 상세 페이지
+
+페이지 별 요구사항은 다음과 같습니다.
+
+#### 1. "/" 인덱스 페이지
+
+"ONEBITE CINEMA" 라는 텍스트를 렌더링합니다.
+
+#### 2. "/search" 검색 페이지
+
+"검색 결과 : {q}"를 렌더링합니다.
+
+#### 3. "movie/[id]" 영화 상세 페이지
+
+"{id} 영화 상세페이지"를 렌더링합니다.
+
+<br>
+
+---------------------
+
+## DAY03 미션) 한입-씨네마 백엔드 서버 세팅하기
+
+앞으로의 프로젝트 진행을 위해 **한입 씨네마 백엔드 서버**를 각자의 PC에 세팅합니다.
+
+## 미션 제출 방법
+
+미션 제출은 다음 방법중 하나를 선택하시면 됩니다.
+
+1. API 문서 화면 캡쳐
+   - 세팅이 완료된 백엔드 서버의 API 문서(~/api)로 접속하신 다음 스크린샷을 찍어 올려주세요
+   - 또는 백엔드 서버가 가동중인 터미널의 사진을 찍어서 올려주셔도 괜찮습니다.
+
+## 미션 소개) 한입 씨네마 백엔드 서버 세팅하기
+
+다음은 **한입 씨네마 백엔드 서버**의 코드가 저장되어 있는 GitHub 저장소입니다.  
+아래 링크에 접속하셔서 강의에서 배운대로 백엔드 서버를 직접 설정해주세요!
+
+[https://github.com/winterlood/onebite-cinema-api](https://github.com/winterlood/onebite-cinema-api)
+
+서버 세팅방법은 우리 강의의 "1.3 실습용 백엔드 서버 세팅하기"에 소개해드린 방식과 완전히 동일합니다.  
+새로운 Supabase 프로젝트를 생성하고 Connection String을 설정하신 다음 백엔드 서버를 가동해보세요!
+
+백엔드 서버의 설정이 완료되었다면 npm run build로 빌드한 다음 npm run start로 가동하고  
+http://localhost:12345/api 주소로 접속하면 나타나는 API 문서를 캡쳐해 미션 인증으로 올려주세요
+
+![image](https://github.com/user-attachments/assets/fc25a326-aa4c-49b2-967a-21b987839ace)
+
+<br>
+
+---------------------
+
+## DAY04 미션) 한입-씨네마 레이아웃 설정하기
+
+"한입 씨네마" 프로젝트의 글로벌 및 페이지별 레이아웃을 설정합니다.
+
+## 미션 제출 방법
+
+미션 제출은 다음 방법중 하나를 선택하시면 됩니다.
+
+1. 결과 화면 캡쳐
+   - 페이지 결과물만 주소와 함께 캡쳐하시거나 프로젝트 파일 구조를 함께 캡쳐해주세요
+   - 여러장 올리셔도 됩니다!
+2. GitHub에 프로젝트 업로드 후 링크로 공유
+
+> [정답 보기](https://github.com/winterlood/onebite-next-challenge/blob/main/missions/day02/mission/answer)
+
+## 미션 소개) 한입 씨네마 레이아웃 설정하기
+
+**한입 씨네마** 프로젝트의 글로벌 및 페이지별 레이아웃을 설정합니다.  
+아래 안내드리는 순서에 따라 미션을 수행해주세요
+
+### 1. 글로벌 레이아웃 설정하기
+
+
+<img width="728" alt="img0-2" src="https://github.com/user-attachments/assets/3dfc79f1-ce3a-42e3-94fe-a269168296d4">
+
+다음 조건을 만족하도록 글로벌 레이아웃을 설정하세요  
+참고로 글로벌 레이아웃이란 모든 페이지에 동일하게 적용되는 레이아웃을 말합니다.
+
+**글로벌 레이아웃에는 다음 요소가 있어야합니다.**
+
+- **header**
+  - "ONEBITE CINEMA" 라는 텍스트가 렌더링 되는 헤더가 존재해야 합니다.
+  - 클릭시 "/" 페이지로 이동합니다.
+  - 컬러는 붉은색, rgb(229,9,20)로 설정합니다
+  - 폰트 사이즈는 20px로 설정합니다.
+- **children**
+  - header 요소 아래에 페이지 컴포넌트를 렌더링 합니다.
+
+**스타일은 다음과 같이 설정합니다.**
+
+- background는 검은색, rgb(0,0,0)으로 설정합니다.
+- 기본 폰트 컬러는 흰색, rgb(255,255,255)로 설정합니다.
+- 컨테이너 최대 너비(max-width)를 800px로 설정해 화면 가운데에 배치되도록 설정합니다.
+- 컨테이너 좌우 여백을 20px 만큼 적용합니다.
+
+> 힌트 : global.css 파일을 수정해도 글로벌 레이아웃을 설정할 수 있습니다.
+
+### 2. 검색바 레이아웃 설정하기
+
+<img width="796" alt="img1" src="https://github.com/user-attachments/assets/5494c303-73d5-4be8-a905-9965152ab361">
+
+다음 조건을 만족하도록 검색바 레이아웃을 설정하세요
+
+- 검색바 레이아웃은 "/", "/search" 페이지에만 적용됩니다.
+- 위 그림과 같은 검색바가 존재하며 검색 버튼 클릭시 "/search" 페이지로 이동합니다.
+  - 이때의 검색어는 쿼리스트링 q로 전달됩니다.
