@@ -10,7 +10,7 @@ export default function GlobalLayout({ children }: {
       <header className={style.header}>
         <Link href={'/'}>ONEBITE-CINEMA</Link>
       </header>
-      <main>{children}</main>
+      {children}
       <footer></footer>
     </div>
   );
