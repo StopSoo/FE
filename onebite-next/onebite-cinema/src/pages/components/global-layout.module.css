@@ -1,0 +1,13 @@
+.container {
+  margin: 0 20px;
+}
+
+.header {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.header > a {
+  color: rgb(229, 9, 20); 
+  text-decoration: none;
+}
