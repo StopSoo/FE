@@ -1,0 +1,25 @@
+/* 검색바와 검색 버튼 요소에 대한 설정 */
+.searchbar_container {
+  display: flex; 
+  gap: 10px;
+  margin-bottom: 20px;
+}
+/* 검색바 설정 */
+.searchbar_container > input {
+  flex: 1;
+  padding: 15px;
+  border-radius:  5px;
+  border: 1px solid rgb(220, 220, 220);
+  background-color: rgb(0, 0, 0);
+  font-size: 13px;
+  color: white;
+}
+/* 검색 버튼 설정 */
+.searchbar_container > button {
+  width: 80px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(225, 225, 225);
+  color: white;
+  cursor: pointer;
+}
