@@ -9,9 +9,12 @@ import fetchBooks from "@/lib/fetch-books";
 import fetchRandomBooks from "@/lib/fetch-random-books";
 // 컴포넌트보다 먼저 실행되어서, 컴포넌트에 필요한 데이터를 불러오는 함수
 export const getServerSideProps = async () => {
-  const allBooks = await fetchBooks();
-  const recoBooks = await fetchRandomBooks();
-
+  // Promise.all(): 인수로 전달한 배열 안에 있는 모든 비동기 함수들을 실행시킴.
+  const [allBooks, recoBooks] = await Promise.all([
+    fetchBooks(),
+    fetchRandomBooks(),
+  ]);
+  
   return {
     props: {
       allBooks,
