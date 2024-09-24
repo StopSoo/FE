@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import style from './[id].module.css';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import fetchOneBook from "@/lib/fetch-one-book";
 const mockData = {
   "id": 1,
   "title": "한 입 크기로 잘라 먹는 리액트",
@@ -10,7 +12,27 @@ const mockData = {
   "coverImgUrl": "https://shopping-phinf.pstatic.net/main_3888828/38888282618.20230913071643.jpg"
 };
 
-export default function Page() {
+// 컴포넌트보다 먼저 실행되어서, 컴포넌트에 필요한 데이터를 불러오는 함수
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  // type error 발생 시, ! 단언을 통해 해결 가능.
+  const id = context.params!.id;
+  const book = await fetchOneBook(Number(id));  // id가 string 형태라 숫자화.
+
+  return {
+    props: {
+      book
+    },
+  };
+}
+
+export default function Page({
+  book,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  // 예외 처리
+  if (!book) return "문제가 발생했습니다. 다시 시도하세요.";
+
   const { 
     id, 
     title, 
@@ -19,7 +41,7 @@ export default function Page() {
     author, 
     publisher, 
     coverImgUrl 
-  } = mockData;
+  } = book;
 
   return (
     <div className={style.container}>
