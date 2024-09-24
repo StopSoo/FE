@@ -1,11 +1,12 @@
 import { BookData } from "@/types";
 
-export default async function fetchBooks(): Promise<BookData[]> {
-  const url = `http://localhost:12345/book`;
-
+export default async function fetchRandomBooks(): Promise<BookData[]> {
+  const url = `http://localhost:12345/book/random`;
+  
   try {
     const response = await fetch(url);
-    if (!response.ok) 
+
+    if (!response.ok)
       throw new Error();
 
     return await response.json();
