@@ -1,28 +1,45 @@
 import SearchableLayout from "@/components/searchable-layout";
 import { useRouter } from "next/router";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import BookItem from "@/components/book-item";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { GetStaticPropsContext, InferGetServerSidePropsType, InferGetStaticPropsType } from "next";
 import fetchBooks from "@/lib/fetch-books";
+import { BookData } from "@/types";
 
-// 컴포넌트보다 먼저 실행되어서, 컴포넌트에 필요한 데이터를 불러오는 함수
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
-  // 모르겠으면 일단 해당 객체 출력해보고 파악하자!
-  const q = context.query.q;
-  const books = await fetchBooks(q as string);  // q 타입 단언하기
+// 검색 결과를 불러오는 페이지는 쿼리를 사용해야 하는데, SSG를 적용하면 쿼리를 사용할 수가 없다! 
+// 따라서 원래 리액트에서 사용하는 방식을 사용해야 함!
+
+// export const getStaticProps = async (
+//   context: GetStaticPropsContext
+// ) => {
+//   // 모르겠으면 일단 해당 객체 출력해보고 파악하자!
+//   const q = context.query.q;
+//   const books = await fetchBooks(q as string);  // q 타입 단언하기
   
-  return {
-    props: {
-      books,
-    },
-  };
-}
+//   return {
+//     props: {
+//       books,
+//     },
+//   };
+// }
 
-export default function Page({
-  books
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Page() {
+  const [books, setBooks] = useState<BookData[]>([]); // books의 타입을 제네릭으로 정의.
+
+  const router = useRouter();
+  const q = router.query.q;
+
+  const fetchSearchResult = async () => {
+    const data = await fetchBooks(q as string);
+    setBooks(data);
+  };
+  // q 변경 시 검색 결과를 불러옴
+  useEffect(() => {
+    if (q) {
+      fetchSearchResult();
+    }
+  }, [q]);
+  
   return (
     <div>
       {books.map((book) => <BookItem key={book.id} {...book} />)}
