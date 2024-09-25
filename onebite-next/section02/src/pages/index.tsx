@@ -4,17 +4,18 @@ import style from "./index.module.css";
 import { ReactNode } from "react";
 import books from '@/mock/books.json';
 import BookItem from "@/components/book-item";
-import { InferGetServerSidePropsType } from "next";
+import { InferGetStaticPropsType } from "next";
 import fetchBooks from "@/lib/fetch-books";
 import fetchRandomBooks from "@/lib/fetch-random-books";
-// 컴포넌트보다 먼저 실행되어서, 컴포넌트에 필요한 데이터를 불러오는 함수
-export const getServerSideProps = async () => {
+// getServerSideProps(): 컴포넌트보다 먼저 실행되어서, 컴포넌트에 필요한 데이터를 불러오는 SSR 함수
+// getStaticProps(): SSG 함수
+export const getStaticProps = async () => {
   // Promise.all(): 인수로 전달한 배열 안에 있는 모든 비동기 함수들을 실행시킴.
   const [allBooks, recoBooks] = await Promise.all([
     fetchBooks(),
     fetchRandomBooks(),
   ]);
-  
+  // SSR, SSG 모두 props라는 property를 가진 객체를 반환해야 함.
   return {
     props: {
       allBooks,
@@ -22,11 +23,13 @@ export const getServerSideProps = async () => {
     },
   };
 };
-
+// SSR: InferGetServerSidePropsType
+// SSG: InferGetStaticPropsType
+// 둘 다 제네릭으로 넣은 함수의 반환값 타입을 자동으로 추론해서 props의 타입으로 설정해주는 역할을 함.
 export default function Home({ 
   allBooks,
   recoBooks,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   
   return (
     <div className={style.container}>
