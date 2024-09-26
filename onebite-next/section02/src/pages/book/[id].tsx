@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import style from './[id].module.css';
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { GetServerSidePropsContext, GetStaticPropsContext, InferGetServerSidePropsType, InferGetStaticPropsType } from "next";
 import fetchOneBook from "@/lib/fetch-one-book";
 const mockData = {
   "id": 1,
@@ -11,15 +11,33 @@ const mockData = {
   "publisher": "프로그래밍인사이트",
   "coverImgUrl": "https://shopping-phinf.pstatic.net/main_3888828/38888282618.20230913071643.jpg"
 };
+// 동적 페이지에서 경로 설정하는 함수.
+// paths property를 갖는 객체를 반환.
+// URL 파라미터의 값들은 반드시 문자열로 설정해야 함.
+// fallback: 대체, 대비책, 예외 처리 (기본값은 false) => 404.tsx 실행됨.
+export const getStaticPaths = () => {
+  return {
+    paths: [
+      {params: { id: "1" }},
+      {params: { id: "2" }},
+      {params: { id: "3" }},
+    ],
+    fallback: false,
+  };
+}
 
-// 컴포넌트보다 먼저 실행되어서, 컴포넌트에 필요한 데이터를 불러오는 함수
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
+export const getStaticProps = async (
+  context: GetStaticPropsContext
 ) => {
   // type error 발생 시, ! 단언을 통해 해결 가능.
   const id = context.params!.id;
   const book = await fetchOneBook(Number(id));  // id가 string 형태라 숫자화.
-
+  // 해당 페이지가 존재하지 않을 경우 Not found 페이지로 보내고 싶을 때!
+  if (!book) {  
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
       book
@@ -29,9 +47,11 @@ export const getServerSideProps = async (
 
 export default function Page({
   book,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  // 예외 처리
-  if (!book) return "문제가 발생했습니다. 다시 시도하세요.";
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  // 예외 처리 - fallback과 로딩 중을 구분하기.
+  const router = useRouter();
+  if (router.isFallback) return "로딩중입니다 :)";
+  if (!book) return "문제가 발생했습니다. 다시 시도해주세요 :)";
 
   const { 
     id, 
