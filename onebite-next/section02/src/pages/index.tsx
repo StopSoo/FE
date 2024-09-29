@@ -21,6 +21,7 @@ export const getStaticProps = async () => {
       allBooks,
       recoBooks,
     },
+    // revalidate:  3, // ISR 적용
   };
 };
 // SSR: InferGetServerSidePropsType
