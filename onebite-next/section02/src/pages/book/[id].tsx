@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import style from './[id].module.css';
-import { GetServerSidePropsContext, GetStaticPropsContext, InferGetServerSidePropsType, InferGetStaticPropsType } from "next";
+import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import fetchOneBook from "@/lib/fetch-one-book";
 import Head from "next/head";
 // 동적 페이지에서 경로 설정하는 함수.
@@ -61,8 +61,7 @@ export default function Page({
   }
   if (!book) return "문제가 발생했습니다. 다시 시도해주세요 :)";
 
-  const { 
-    id, 
+  const {  
     title, 
     subTitle, 
     description, 
