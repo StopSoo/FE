@@ -5,6 +5,7 @@ import BookItem from "@/components/book-item";
 import { GetStaticPropsContext, InferGetServerSidePropsType, InferGetStaticPropsType } from "next";
 import fetchBooks from "@/lib/fetch-books";
 import { BookData } from "@/types";
+import Head from "next/head";
 
 // 검색 결과를 불러오는 페이지는 쿼리를 사용해야 하는데, SSG를 적용하면 쿼리를 사용할 수가 없다! 
 // 따라서 원래 리액트에서 사용하는 방식을 사용해야 함!
@@ -42,6 +43,12 @@ export default function Page() {
   
   return (
     <div>
+      <Head>
+        <title>한입북스 - 검색 결과</title>
+        <meta property="og:image" content="/thumbnail.png" />
+        <meta property="og:title" content="한입북스 - 검색 결과" />
+        <meta property="og:description" content="한입 북스에 등록된 도서들을 만나보세요!" />
+      </Head>
       {books.map((book) => <BookItem key={book.id} {...book} />)}
     </div>
   );
