@@ -1,17 +1,19 @@
-import ClientComponent from "@/components/client-component";
+import books from "@/mock/books.json";
+import BookItem from "@/components/book-item";
 
-// props의 형태를 먼저 확인한 후 타입 설정.
 export default function Page({
-  searchParams 
+  searchParams,
 }: {
-  searchParams: {q?: string;}
+  searchParams: {
+    q?: string;
+  };
 }) {
+  // 지금은 임시 데이터 렌더링 중
   return (
     <div>
-      Search Page {searchParams.q}
-      <ClientComponent>
-        <></>
-      </ClientComponent>
+      {books.map((book) => (
+        <BookItem key={book.id} {...book} />
+      ))}
     </div>
   );
 }
