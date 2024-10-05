@@ -1,66 +1,52 @@
 /**
- * Unknown 타입
- * - 전체 집합.
- * - 모든 타입의 슈퍼 타입.
+ * 기본 타입 간의 호환성
  */
-function unknownExam() {
-  // 모든 타입의 값들을 할당 가능.
-  let a: unknown = 1; 
-  let b: unknown = "hello";
+let num1: number = 10;  // number 타입
+let num2: 10 = 10;  // number literal 타입
 
-  let unknownVar: unknown;
-  // 다음과 같이 다운캐스팅이 불가능.
-  // let num: number = unknownVar;
-  // let str: string = unknownVar;
-}
+num1 = num2;  // 업캐스팅
+// num2 = num1; // 다운캐스팅
 
 /**
- * Never 타입
- * - 모순을 설명하는 타입.
- * - 모든 타입의 서브 타입.
- * - 공집합.
- * - 어떤 값도 저장되면 안되는 변수에 never 타입을 사용할 것.
+ * 객체 타입 간의 호환성
+ * - 어떤 객체 타입을 다른 객체 타입으로 취급해도 괜찮은가?
+ * - 구조적 타입 시스템 => 프로퍼티를 기준으로 업/다운 캐스팅이 결정됨.
  */
-function neverExam() {
-  // 반환할 수 있는 값이 없다.
-  function neverFunc(): never {
-    while (true) {}
-  }
-  // 다음과 같이 할당이 가능. (업캐스팅)
-  let num: number = neverFunc();
-  let str: string = neverFunc();
-  let bool: boolean = neverFunc();
-  // 다운 캐스팅은 불가능.
-  // let never1: never = 10;
-  // let never2: never = "string";
-}
+type Animal = { // 슈퍼 타입
+  name: string;
+  color: string;
+};
+
+type Dog = {  // 서브 타입
+  name: string;
+  color: string;
+  breed: string;
+};
+
+let animal: Animal = {
+  name: "기린",
+  color: "yellow",
+};
+
+let dog: Dog = {
+  name: "돌돌이",
+  color: "brown",
+  breed: "진도",
+};
+
+animal = dog; // 업캐스팅
+// dog = animal; // 다운캐스팅
 
 /**
- * Void 타입
- * - undefined의 슈퍼 타입.
+ * 초과 프로퍼티 검사
+ * - 변수 초기화 시 값으로 객체 리터럴을 사용하면 발동되는 검사.
+ * - 실제 타입에는 정의해놓지 않은 프로퍼티를 작성하는 것을 막는 검사.
  */
-function voidExam() {
-  function voidFunc(): void {
-    // return 값이 없음.
-    console.log("hi");
-  }
-  // 다음과 같이 업캐스팅이 가능.
-  let voidVar: void = undefined;
-}
 
-/**
- * Any 타입
- * - 모든 타입의 슈퍼 타입이면서도, 모든 타입(never 제외)의 서브 타입이 되기도 한다. 
- */
-function anyExam() {
-  let unknownVar: unknown;
-  let anyVar: any;
-  let undefinedVar: undefined;
-  let neverVar: never;
-  // 다음과 같이 다운캐스팅이 가능(!) => any 타입이라 가능.
-  anyVar = unknownVar;  // 자신한테 오는 다운 캐스팅.
-  undefinedVar = anyVar;  // 자신이 가는 다운 캐스팅.
-  // 예외적으로 never 타입으로의 다운캐스팅은 불가능.
-  // neverVar = anyVar;
-}
+let dog2: Animal = {
+  name: "바둑이",
+  color: "white",
+  // breed: "진도", // 초과 프로퍼티 검사가 발동.
+};
 
+let dog3: Animal = dog; // 객체 리터럴을 사용하지 않았기 때문에 이와 같은 방식으로 변수를 초기화하는 것은 허용됨.
