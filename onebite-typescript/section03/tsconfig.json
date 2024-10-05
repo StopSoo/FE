@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "strict": true,
+    "moduleDetection": "force",
+    "paths": {
+      "undici-types": ["../node_modules/undici/types"]
+    }
+  },
+  "ts-node": {
+    "esm": true
+  },
+  "include": ["src"],
+}
