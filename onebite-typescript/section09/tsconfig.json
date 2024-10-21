@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "outDir": "dist",
+    "moduleDetection": "force",
+    "allowJs": true,
+    "esModuleInterop": true
+  },
+  "ts-node": {
+    "esm": true
+  },
+  "resolveJsonModule": true,
+  "include": ["src"],
+  "exclude": ["dist"]
+}
