@@ -1,4 +1,4 @@
-'use client' // 에러 컴포넌트는 반드시 클라이언트 컴포넌트여야 한다!
+'use client' // 에러 컴포넌트는 반드시 클라이언트 컴포넌트여야 한다(!)
 
 import { useEffect } from "react";
 
@@ -8,6 +8,7 @@ type Props = {
 }
 
 export default function Error({ error, reset }: Props) {
+  // 마운트됐을 때 useEffect() 실행.
   useEffect(() => {
     console.error('---', error.message)
   }, []);
@@ -15,8 +16,9 @@ export default function Error({ error, reset }: Props) {
   return (
     <>
       <h1>Error Page</h1>
-      <button onClick={() => {
-        reset();
+      <button 
+        onClick={() => {
+          reset();
       }}>
         새로고침
       </button>

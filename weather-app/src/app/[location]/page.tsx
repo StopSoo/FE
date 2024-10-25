@@ -5,7 +5,7 @@ type Props = {
   params: {
     location: string
   },
-  searchParams: { // 위치의 한글 이름을 받음
+  searchParams: { // 쿼리로 넘겨준, 위치의 한글 이름을 받음
     name: string
   }
 }
@@ -26,7 +26,9 @@ export default async function Detail({ params, searchParams }: Props) {
       <h1>{name}의 3일 예보</h1>
       <ul>
         {res.forecast.forecastday.map(day => (
-          <li key={day.date}>{day.date} / {day.day.avgtemp_c}</li>
+          <li key={day.date}>
+            {day.date} / {day.day.avgtemp_c}
+          </li>
         ))}
       </ul>
       {/* <Link href="/">HOME</Link> */}

@@ -1,4 +1,5 @@
 /* 지역적 CSS */
+/* import style from './style.module.css'; */
 .list {
   list-style: none;
   padding: 0;
