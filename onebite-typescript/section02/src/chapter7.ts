@@ -11,6 +11,6 @@ function func2(): void {
 // never
 // 존재하지 않는, 불가능한 타입.
 // func3()는 무언가를 반환한다는 것 자체가 불가능하기 때문에 never 타입.
-function func3(): never{
+function func3(): never {
   while (true) {}
 }

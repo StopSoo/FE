@@ -10,7 +10,7 @@ let num: number = 10;
 num = anyVar;
 
 // unknown
-// 어떤 타입의 값이든 할당 가능. => any 타입과 같은 특징.
+// 어떤 타입의 값이든 할당 가능. => any 타입과 같음.
 let unknownVar: unknown;
 unknownVar = "";
 unknownVar = 1;
