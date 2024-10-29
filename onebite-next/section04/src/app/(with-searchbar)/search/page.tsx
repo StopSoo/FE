@@ -1,4 +1,5 @@
 import BookItem from "@/components/book-item";
+import { BookData } from "@/types";
 
 export default async function Page({
   searchParams,
