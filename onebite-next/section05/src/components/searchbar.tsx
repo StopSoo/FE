@@ -6,7 +6,7 @@ import style from "./serachbar.module.css";
 
 export default function Searchbar() {
   const router = useRouter();
-  const searchParams = useSearchParams(); // 현재 페이지에 전달된 쿼리 스트링을 꺼내오는 역할
+  const searchParams = useSearchParams(); // 현재 페이지에 전달된 쿼리 스트링을 꺼내오는 역할(비동기로 실행됨)
   const [search, setSearch] = useState("");
 
   const q = searchParams.get("q");
