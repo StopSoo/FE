@@ -1,6 +1,15 @@
 import BookItem from "@/components/book-item";
 import style from "./page.module.css";
 import { BookData } from "@/types";
+/** 
+ * 라우트 세그먼트 옵션
+ * Ex> dynamic: 특정 페이지의 유형을 Static, Dynamic 페이지로 설정.
+ * 1. auto: 기본 값. 아무 것도 강제하지 않음.
+ * 2. force-dynamic: 페이지를 강제로 Dynamic 페이지로 설정.
+ * 3. force-static: 페이지를 강제로 Static 페이지로 설정. 쿼리 스트링 등의 동적 함수는 빈 값을 반환.
+ * 4. error: 페이지를 강제로 Static 페이지로 설정. 하지만 Static 페이지로 설정되면 안되는 페이지의 경우 빌드 오류를 발생시킴.
+ */
+export const dynamic = "force-dynamic";
 // 모든 도서
 async function AllBooks() {
   // cache 옵션을 "force-cache"로 설정함으로써 Dynamic Page -> Static Page로 변경.
