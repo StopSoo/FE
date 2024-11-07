@@ -1,5 +1,6 @@
 import BookItem from "@/components/book-item";
 import { BookData } from "@/types";
+import { delay } from "@/util/delay";
 /** 
  * 라우트 세그먼트 옵션
  * - force-static: 쿼리 스트링은 빈 값을 반환하며, 데이터 캐싱도 강제로 실행됨. 검색 결과 반환이 원활히 이루어지지 않음.
@@ -16,6 +17,7 @@ export default async function Page({
     q?: string;
   };
 }) {
+  await delay(1500);  // 1.5초만큼 딜레이
   // cache 옵션을 "force-cache"로 설정함.
   // 페이지는 계속 재생성이 되겠지만, 검색 결과는 캐싱이 이루어져 한 번 검색된 데이터에 대해서는 좀 더 빠른 속도로 응답 가능.
   const response = await fetch(
