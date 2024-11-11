@@ -9,16 +9,10 @@ import { notFound } from "next/navigation";
 export function generateStaticParams() {
   return [{ id: "1" },  { id: "2" }, { id: "3" }];
 }
-// id라는 url 파라미터를 가짐 -> 여러 개의 동적 경로에 대응.
-// 기본적으로 동적 페이지로 설정됨.
-// generateStaticParams 함수를 통해 정적 페이지로 설정 가능.
-export default async function Page({
-  params,
-}: {
-  params: { id: string | string[] };
-}) {
+// 컴포넌트 분리
+async function BookDetail({ bookId }: { bookId: string }) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${params.id}`
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${bookId}`
   );
   // 예외처리
   if (!response.ok) {
@@ -39,7 +33,7 @@ export default async function Page({
   } = book;
 
   return (
-    <div className={style.container}>
+    <section>
       <div
         className={style.cover_img_container}
         style={{ backgroundImage: `url('${coverImgUrl}')` }}
@@ -52,6 +46,38 @@ export default async function Page({
         {author} | {publisher}
       </div>
       <div className={style.description}>{description}</div>
+    </section>
+  );
+}
+// for Server Action
+function ReviewEditor() {
+  async function createReviewAction(formData: FormData) {
+    "use server";
+    // 데이터 꺼내 쓰기
+    const content = formData.get("content")?.toString();
+    const author = formData.get("author")?.toString();
+  }
+  
+  return (
+    <section>
+      <form action={createReviewAction}>
+        <input name="content" placeholder="리뷰 내용" />
+        <input name="author" placeholder="작성자" />
+        <button type="submit">작성하기</button>
+      </form>
+    </section>
+  );
+}
+// generateStaticParams 함수를 통해 정적 페이지로 설정 가능.
+export default function Page({
+  params,
+}: {
+  params: { id: string };
+}) {
+  return (
+    <div className={style.container}>
+      <BookDetail bookId={params.id} />
+      <ReviewEditor />
     </div>
   );
 }
