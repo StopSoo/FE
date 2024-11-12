@@ -1,6 +1,8 @@
 import { createReviewAction } from "@/actions/create-review.action";
 import style from "./page.module.css";
 import { notFound } from "next/navigation";
+import { ReviewData } from "@/types";
+import ReviewItem from "@/components/review-item";
 // dynamicParams: generateStaticParams() 함수에서 설정된 파라미터 외의 파라미터들에 대해서는 모두 404를 반환하는 옵션.
 // export const dynamicParams = false;
 
@@ -50,7 +52,8 @@ async function BookDetail({ bookId }: { bookId: string }) {
     </section>
   );
 }
-// for Server Action
+// 리뷰 추가 기능 구현
+// using Server Action
 function ReviewEditor({ bookId }: { bookId: string }) {
   // bookId는 trick!
   // hidden과 readOnly 속성을 같이 사용할 것.
@@ -65,7 +68,27 @@ function ReviewEditor({ bookId }: { bookId: string }) {
     </section>
   );
 }
-// generateStaticParams 함수를 통해 정적 페이지로 설정 가능.
+// 리뷰 조회 기능 구현
+async function ReviewList({ bookId }: { bookId: string }) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/book/${bookId}`
+  );
+  // 예외 처리
+  if (!response.ok) {
+    throw new Error(`Review fetch failed: ${response.statusText}`);
+  } 
+  
+  const reviews: ReviewData [] = await response.json();
+
+  return (
+    <section>
+      {reviews.map((review) => (
+        <ReviewItem key={`review-item-${review.id}`} {...review} />
+      ))}
+    </section>
+  );
+}
+
 export default function Page({
   params,
 }: {
@@ -75,6 +98,7 @@ export default function Page({
     <div className={style.container}>
       <BookDetail bookId={params.id} />
       <ReviewEditor bookId={params.id} />
+      <ReviewList bookId={params.id} />
     </div>
   );
 }
