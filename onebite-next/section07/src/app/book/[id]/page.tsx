@@ -1,3 +1,4 @@
+import { createReviewAction } from "@/actions/create-review.action";
 import style from "./page.module.css";
 import { notFound } from "next/navigation";
 // dynamicParams: generateStaticParams() 함수에서 설정된 파라미터 외의 파라미터들에 대해서는 모두 404를 반환하는 옵션.
@@ -51,35 +52,12 @@ async function BookDetail({ bookId }: { bookId: string }) {
 }
 // for Server Action
 function ReviewEditor({ bookId }: { bookId: string }) {
-  async function createReviewAction(formData: FormData) {
-    "use server";
-    // 데이터 꺼내 쓰기
-    const content = formData.get("content")?.toString();
-    const author = formData.get("author")?.toString();
-    // 예외 처리
-    if (!content || !author) {
-      return;
-    }
-    // 리뷰 추가 기능 구현
-    try {
-      // api 경로, fetch 요청의 옵션 객체
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/review`, {
-          method: "POST",
-          body: JSON.stringify({ bookId, content, author }),
-        }
-      );
-
-      console.log(response.status);
-    } catch(err) {
-      console.error(err);
-      return;
-    }
-  }
-  
+  // bookId는 trick!
+  // hidden과 readOnly 속성을 같이 사용할 것.
   return (
     <section>
       <form action={createReviewAction}>
+        <input name="bookId" value={bookId} hidden readOnly /> 
         <input required name="content" placeholder="리뷰 내용" />
         <input required name="author" placeholder="작성자" />
         <button type="submit">작성하기</button>
