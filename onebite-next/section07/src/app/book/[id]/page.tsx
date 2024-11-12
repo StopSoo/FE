@@ -1,8 +1,8 @@
-import { createReviewAction } from "@/actions/create-review.action";
 import style from "./page.module.css";
 import { notFound } from "next/navigation";
 import { ReviewData } from "@/types";
 import ReviewItem from "@/components/review-item";
+import ReviewEditor from "@/components/review-editor";
 // dynamicParams: generateStaticParams() 함수에서 설정된 파라미터 외의 파라미터들에 대해서는 모두 404를 반환하는 옵션.
 // export const dynamicParams = false;
 
@@ -49,22 +49,6 @@ async function BookDetail({ bookId }: { bookId: string }) {
         {author} | {publisher}
       </div>
       <div className={style.description}>{description}</div>
-    </section>
-  );
-}
-// 리뷰 추가 기능 구현
-// using Server Action
-function ReviewEditor({ bookId }: { bookId: string }) {
-  // bookId는 trick!
-  // hidden과 readOnly 속성을 같이 사용할 것.
-  return (
-    <section>
-      <form action={createReviewAction}>
-        <input name="bookId" value={bookId} hidden readOnly /> 
-        <input required name="content" placeholder="리뷰 내용" />
-        <input required name="author" placeholder="작성자" />
-        <button type="submit">작성하기</button>
-      </form>
     </section>
   );
 }
