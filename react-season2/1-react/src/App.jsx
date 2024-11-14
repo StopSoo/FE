@@ -1,6 +1,7 @@
-import ProductItem from "./components/ProductItem";
 import Title from "./components/Title";
-import NavBar from "./components/\bNavBar";
+import NavBar from "./components/NavBar";
+import Page from "./components/Page";
+import ProductItem from "./components/ProductItem";
 // mock data
 const fakeProduct = {
   id: "CACDA421",
@@ -11,21 +12,13 @@ const fakeProduct = {
 
 const App = () => (
   <div className="ProductPage">
-    <div className="Page">
-      <header>
-        <Title>메뉴 목록</Title>
-      </header>
-      <main>
-        <ul>
-          <li>
-            <ProductItem product={fakeProduct} />
-          </li>
-        </ul>
-      </main>
-      <footer>
-        <NavBar />
-      </footer>
-    </div>
+    <Page header={<Title>메뉴 목록</Title>} footer={<NavBar />}>
+      <ul>
+        <li>
+          <ProductItem product={fakeProduct} />
+        </li>
+      </ul>
+    </Page>
   </div>
 );
 
