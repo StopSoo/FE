@@ -1,5 +1,6 @@
 import ProductItem from "./components/ProductItem";
 import Title from "./components/Title";
+import NavBar from "./components/\bNavBar";
 // mock data
 const fakeProduct = {
   id: "CACDA421",
@@ -22,10 +23,7 @@ const App = () => (
         </ul>
       </main>
       <footer>
-        <nav className="Navbar">
-          <a className="active" href="#">메뉴목록</a>
-          <a href="#">주문내역</a>
-        </nav>
+        <NavBar />
       </footer>
     </div>
   </div>
