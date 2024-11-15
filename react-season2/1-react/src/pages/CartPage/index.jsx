@@ -14,7 +14,7 @@ const CartPage = () => {
   return (
     <div className="CartPage">
       <Page
-        header={<Title>장바구니</Title>}
+        header={<Title backUrl={'/'}>장바구니</Title>}
         footer={
           <Button styleType={"brand-solid"} block>
             결제하기
