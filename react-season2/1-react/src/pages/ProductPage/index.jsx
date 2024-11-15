@@ -1,9 +1,9 @@
 import React from "react";
 import NavBar from "../../components/NavBar";
 import Page from "../../components/Page";
-import ProductItem from "../../components/ProductItem";
 import Title from "../../components/Title";
 import ProductApi from "shared/api/ProductApi"; // workspace
+import OrderableProductItem from "./OrderableProductItem";
 // 상태 관리를 위해 class 컴포넌트로 구현
 class ProductPage extends React.Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class ProductPage extends React.Component {
           <ul>
             {this.state.productList.map((product) => (
               <li key={product.id}>
-                <ProductItem product={product} />
+                <OrderableProductItem product={product} />
               </li>
             ))}
           </ul>

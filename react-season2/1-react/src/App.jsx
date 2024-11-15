@@ -5,9 +5,9 @@ import CartPage from "./pages/CartPage";
 const App = () => {
   return (
     <>
-      {/* <ProductPage /> */}
+      <ProductPage />
       {/* <OrderPage /> */}
-      <CartPage />
+      {/* <CartPage /> */}
     </>
   );
 };
