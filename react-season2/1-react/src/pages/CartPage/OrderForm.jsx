@@ -1,0 +1,43 @@
+import FormControl from "../../components/FormControl";
+// htmlFor값과 input태그의 name값을 같게 해야 레이블 클릭 시 필드에 포커싱 가능.
+// + id 설정도 필수.
+const OrderForm = () => {
+  return (
+    <form className="OrderForm">
+      <FormControl label="주소" htmlFor={"deliveryAddress"} required>
+        <input
+          type="text"
+          name="deliveryAddress"
+          id="deliveryAddress"
+          placeholder="배달 받을 주소를 입력하세요"
+          required
+          autoFocus
+        />
+      </FormControl>
+      <FormControl label="연락처" htmlFor={"deliveryContact"} required>
+        <input
+          type="text"
+          name="deliveryContact"
+          id="deliveryContact"
+          placeholder="연락처를 입력하세요"
+          required
+          pattern="^\d{2,3}-\d{3,4}-\d{4}$"
+        />
+      </FormControl>
+      <FormControl label="결제수단" htmlFor={"paymentMethod"} required>
+        <select name="paymentMethod" id="paymentMethod" value="">
+          <option value="마이페이">마이페이</option>
+          <option value="직접 결제">직접 결제</option>
+        </select>
+      </FormControl>
+      <FormControl label="가게 사장님께" htmlFor={"messageToShop"}>
+        <textarea name="messageToShop" id="messageToShop"/>
+      </FormControl>
+      <FormControl label="라이더님께" htmlFor={"messageToRider"}>
+        <textarea name="messageToRider" id="messageToRider"/>
+      </FormControl>
+    </form>
+  );
+};
+
+export default OrderForm;
