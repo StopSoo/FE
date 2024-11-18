@@ -1,8 +1,8 @@
-import Button from "../../components/Button";
 import Page from "../../components/Page";
 import ProductItem from "../../components/ProductItem";
 import Title from "../../components/Title";
 import OrderForm from "./OrderForm";
+import PaymentButton from "./PaymentButton";
 
 const fakeProduct = {
   id: "CACDA421", 
@@ -17,9 +17,7 @@ const CartPage = () => {
       <Page
         header={<Title backUrl={'/'}>장바구니</Title>}
         footer={
-          <Button styleType={"brand-solid"} block form="order-form">
-            결제하기
-          </Button>
+          <PaymentButton />
         }
       >
         <ProductItem product={fakeProduct}/>
