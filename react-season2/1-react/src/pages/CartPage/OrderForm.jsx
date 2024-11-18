@@ -1,9 +1,14 @@
 import FormControl from "../../components/FormControl";
-// htmlFor값과 input태그의 name값을 같게 해야 레이블 클릭 시 필드에 포커싱 가능.
-// + id 설정도 필수.
+// 1. htmlFor값과 input태그의 name값을 같게 해야 레이블 클릭 시 필드에 포커싱 가능(!) + id 설정도 필수.
+// 2. form에 id를 설정하고 이를 button에서 form 속성으로 지정하면, 해당 버튼을 클릭 시 폼이 제출됨(!)
 const OrderForm = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault(); // 리렌더링 방지
+    console.log("submit");
+  };
+
   return (
-    <form className="OrderForm">
+    <form className="OrderForm" id="order-form" onSubmit={handleSubmit}>
       <FormControl label="주소" htmlFor={"deliveryAddress"} required>
         <input
           type="text"
@@ -31,10 +36,10 @@ const OrderForm = () => {
         </select>
       </FormControl>
       <FormControl label="가게 사장님께" htmlFor={"messageToShop"}>
-        <textarea name="messageToShop" id="messageToShop"/>
+        <textarea name="messageToShop" id="messageToShop" />
       </FormControl>
       <FormControl label="라이더님께" htmlFor={"messageToRider"}>
-        <textarea name="messageToRider" id="messageToRider"/>
+        <textarea name="messageToRider" id="messageToRider" />
       </FormControl>
     </form>
   );
