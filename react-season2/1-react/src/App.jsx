@@ -16,15 +16,15 @@ const App = () => {
 export default App;
 
 // 이벤트 에미터
-const eventEmitter = createEvenEmitter(0);
-const logger = (value) => console.log(value);
+// const eventEmitter = createEvenEmitter(0);
+// const logger = (value) => console.log(value);
 
-eventEmitter.on(logger);
-console.log(eventEmitter.get());  // 0
-eventEmitter.set(1);  // 1
-eventEmitter.set(2);  // 2
+// eventEmitter.on(logger);
+// console.log(eventEmitter.get());  // 0
+// eventEmitter.set(1);  // 1
+// eventEmitter.set(2);  // 2
 
-setTimeout(() => eventEmitter.set(10), 3000); // 비동기 동작도 가능.
+// setTimeout(() => eventEmitter.set(10), 3000); // 비동기 동작도 가능.
 
 // 1) ref 객체를 통해 DOM에 직접 접근 가능.
 // 2) ref를 어떤 태그에 전달하느냐에 따라 ref객체의 속성이 달라짐.
