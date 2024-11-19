@@ -1,6 +1,5 @@
 import React from "react";
 import OrderApi from "shared/api/OrderApi";
-import Card from "../../components/Card";
 import NavBar from "../../components/NavBar";
 import Page from "../../components/Page";
 import Title from "../../components/Title";
