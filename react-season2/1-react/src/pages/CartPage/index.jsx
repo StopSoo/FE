@@ -8,16 +8,16 @@ import ProductApi from "shared/api/ProductApi";
 
 class CartPage extends React.Component {
   constructor(props) {
+    // handleSubmit은 비동기로 동작해야 하기 때문에, constructor를 통해 this를 고정시킴.
     super(props);
 
-    this.state = {
-      product: null,
-    };
+    this.state = { product: null };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   async fetch() {
     try {
-      const product = await ProductApi.fetchProduct("CACDA421"); // id를 동적으로 받아야 함
+      const product = await ProductApi.fetchProduct("CACDA421"); // id를 동적으로 받아야 함.
       this.setState({ product });
     } catch (e) {
       console.error(e);
@@ -26,6 +26,11 @@ class CartPage extends React.Component {
 
   async componentDidMount() {
     this.fetch();
+  }
+  // 콜백 함수
+  // OrderForm을 통해 전달 받은 주문 정보를 가져옴.
+  handleSubmit(values) {
+    console.log(values);
   }
 
   render() {
@@ -38,7 +43,7 @@ class CartPage extends React.Component {
           footer={<PaymentButton />}
         >
           {product && <ProductItem product={product} />}
-          <OrderForm />
+          <OrderForm onSubmit={this.handleSubmit} />
         </Page>
       </div>
     );
