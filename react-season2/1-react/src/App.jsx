@@ -13,7 +13,7 @@ const App = () => {
   );
 };
 
-export default App;
+// export default App;
 
 // 이벤트 에미터
 // const eventEmitter = createEvenEmitter(0);
@@ -26,26 +26,59 @@ export default App;
 
 // setTimeout(() => eventEmitter.set(10), 3000); // 비동기 동작도 가능.
 
-// 1) ref 객체를 통해 DOM에 직접 접근 가능.
-// 2) ref를 어떤 태그에 전달하느냐에 따라 ref객체의 속성이 달라짐.
-// import React from 'react';
+import MyReact from "./lib/MyReact";
 
-// class MyComponent extends React.Component {
-//   divRef = React.createRef();
+const countContext = MyReact.createContext({
+  count: 0,
+  setCount: () => {},
+});
+// provider
+class CountProvider extends React.Component {
+  constructor(props) {
+    super(props);
 
-//   render() {
-//     return <div ref={this.divRef}>div</div>;
-//   }
+    this.state = { count: 0 };
+  }
 
-//   componentDidMount() {
-//     // 실제 DOM에 있는 div element 값이 컴포넌트 마운트 후 current에 들어와 있음을 확인 가능.
-//     console.log(this.divRef);
+  render() {
+    const value = {
+      count: this.state.count,
+      setCount: (nextValue) => this.setState({ count: nextValue }),
+    };
 
-//     const divElement = this.divRef.current;
-//     divElement.style.backgroundColor = "red";
-//     divElement.style.width = "100px";
-//     divElement.style.height = "100px";
-//   }
-// }
+    return (
+      <countContext.Provider value={value}>
+        {this.props.children}
+      </countContext.Provider>
+    );
+  }
+}
+// consumer
+const Count = () => {
+  return (
+    <countContext.Consumer>
+      {(value) => (
+        <div>{value.count}</div>
+      )}
+    </countContext.Consumer>
+  );
+};
 
-// export default MyComponent;
+const PlusButton = () => {
+  return (
+    <countContext.Consumer>
+      {(value) => (
+        <button onClick={()=>value.setCount(value.count + 1)}>
+          + 카운트 올리기
+        </button>
+      )}
+    </countContext.Consumer>
+  );
+}
+
+export default () => (
+  <CountProvider>
+    <Count />
+    <PlusButton />
+  </CountProvider>
+);

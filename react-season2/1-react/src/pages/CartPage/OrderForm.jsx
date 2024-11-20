@@ -1,5 +1,6 @@
 import React from "react";
 import FormControl from "../../components/FormControl";
+import { createRef } from "react";
 // 1. htmlFor값과 input태그의 name값을 같게 해야 레이블 클릭 시 필드에 포커싱 가능(!) + id 설정도 필수.
 // 2. form에 id를 설정하고 이를 button에서 form 속성으로 지정하면, 해당 버튼을 클릭 시 폼이 제출됨(!)
 // 3. form 객체에 ref 속성 지정 -> 컴포넌트 렌더링, DOM에 마운트 후 this.formRef.current에 form element의 값이 저장됨.
@@ -8,7 +9,7 @@ class OrderForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.formRef = React.createRef();
+    this.formRef = createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   // 사용자가 입력한 값을 받아오는 함수
