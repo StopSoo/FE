@@ -5,7 +5,7 @@ import ProductPage from "../pages/ProductPage";
 // Router의 this.state.path를 전달하기 위해.
 // 근데 목적지가 불분명! 어디까지 내려가야 하는지도 불분명!
 export const routerContext = React.createContext({});
-routerContext.displayName = 'RouterContext';  // Context에 이름 붙이기
+routerContext.displayName = "RouterContext"; // Context에 이름 붙이기
 
 export const Link = ({ to, ...rest }) => (
   <routerContext.Consumer>
@@ -49,15 +49,26 @@ export class Router extends React.Component {
     );
   }
 }
+// Routes가 정해진 path에만 얽매이지 않고, children으로 받아 렌더링하도록 리팩토링(!) => 재사용성 향상
+export const Routes = ({ children }) => {
+  return (
+    <routerContext.Consumer>
+      {({ path }) => {
+        let selectedRoute = null;
 
-export const Routes = () => (
-  <routerContext.Consumer>
-    {({path}) => (
-      <>
-        {path === "/cart" && <CartPage />}
-        {path === "/order" && <OrderPage />}
-        {!["/order", "/cart"].includes(path) && <ProductPage />}
-      </>
-    )} 
-  </routerContext.Consumer>
-);
+        React.Children.forEach(children, (child) => {
+          if (!React.isValidElement(child)) return; // 리액트 Element인지 검사
+          if (child.type === React.Fragment) return;  // <></>인지 검사
+          if (!child.props.path || !child.props.element) return;  // Route 컴포넌트가 맞는지 검사
+          if (child.props.path !== path.replace(/\?.*$/, "")) return;  // 요청 경로를 검사(query 문자열 제거)
+
+          selectedRoute = child.props.element;
+        });
+
+        return selectedRoute;
+      }}
+    </routerContext.Consumer>
+  );
+};
+
+export const Route = () => null;
