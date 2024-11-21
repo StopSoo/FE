@@ -1,9 +1,9 @@
 import React from "react";
-import createEvenEmitter from "shared/lib/EventEmitter";
+import createEventEmitter from "shared/lib/EventEmitter";
 // context를 만드는 createContext 함수를 제공하는 모듈
 const MyReact = (function () {
   function createContext(initialValue) {
-    const emitter = createEvenEmitter(initialValue);
+    const emitter = createEventEmitter(initialValue);
     // value 값이 변경될 때 Consumer에게 알림
     class Provider extends React.Component {
       componentDidMount() {

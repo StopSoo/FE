@@ -1,7 +1,7 @@
 import ProductPage from "./pages/ProductPage/index";
 import OrderPage from "./pages/OrderPage/index";
 import CartPage from "./pages/CartPage";
-import createEvenEmitter from "shared/lib/EventEmitter";
+import createEventEmitter from "shared/lib/EventEmitter";
 import * as MyRouter from "./lib/MyRouter";
 // Context를 사용하려면 Provider로 감싸야 하고, Consumer는 Provider로 감싸야 한다(!)
 // Provider: Router | Consumer: Routes
