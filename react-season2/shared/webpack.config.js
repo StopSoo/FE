@@ -17,6 +17,7 @@ module.exports = {
   devServer: {
     static: path.resolve(__dirname, "public"),
     port: process.env.PORT,
+    historyApiFallback: true, // public폴더에서 못 찾은 리소스에 대해 index.html을 제공.
   },
   module: {
     rules: [

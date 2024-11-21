@@ -4,16 +4,18 @@ import CartPage from "./pages/CartPage";
 import createEvenEmitter from "shared/lib/EventEmitter";
 
 const App = () => {
+  const { pathname } = window.location;
+
   return (
     <>
-      {/* <ProductPage /> */}
-      {/* <OrderPage /> */}
-      <CartPage />
+      {pathname === "/cart" && <CartPage />}
+      {pathname === "/order" && <OrderPage />}
+      {!["/order", "/cart"].includes(pathname) && <ProductPage />}
     </>
   );
 };
 
-// export default App;
+export default App;
 
 // 이벤트 에미터
 // const eventEmitter = createEvenEmitter(0);
@@ -57,9 +59,7 @@ class CountProvider extends React.Component {
 const Count = () => {
   return (
     <countContext.Consumer>
-      {(value) => (
-        <div>{value.count}</div>
-      )}
+      {(value) => <div>{value.count}</div>}
     </countContext.Consumer>
   );
 };
@@ -68,17 +68,17 @@ const PlusButton = () => {
   return (
     <countContext.Consumer>
       {(value) => (
-        <button onClick={()=>value.setCount(value.count + 1)}>
+        <button onClick={() => value.setCount(value.count + 1)}>
           + 카운트 올리기
         </button>
       )}
     </countContext.Consumer>
   );
-}
+};
 
-export default () => (
-  <CountProvider>
-    <Count />
-    <PlusButton />
-  </CountProvider>
-);
+// export default () => (
+//   <CountProvider>
+//     <Count />
+//     <PlusButton />
+//   </CountProvider>
+// );
