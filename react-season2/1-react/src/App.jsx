@@ -4,16 +4,11 @@ import CartPage from "./pages/CartPage";
 import createEvenEmitter from "shared/lib/EventEmitter";
 import * as MyRouter from "./lib/MyRouter";
 // Context를 사용하려면 Provider로 감싸야 하고, Consumer는 Provider로 감싸야 한다(!)
+// Provider: Router | Consumer: Routes
 const App = () => (
-  <MyRouter.routerContext.Consumer>
-    {({path}) => (
-      <MyRouter.Router>
-        {path === "/cart" && <CartPage />}
-        {path === "/order" && <OrderPage />}
-        {!["/order", "/cart"].includes(path) && <ProductPage />}
-      </MyRouter.Router>
-    )} 
-  </MyRouter.routerContext.Consumer>
+  <MyRouter.Router>
+    <MyRouter.Routes />
+  </MyRouter.Router>
 );
 
 export default App;

@@ -1,4 +1,7 @@
 import React from "react";
+import CartPage from "../pages/CartPage";
+import OrderPage from "../pages/OrderPage";
+import ProductPage from "../pages/ProductPage";
 // Router의 this.state.path를 전달하기 위해.
 // 근데 목적지가 불분명! 어디까지 내려가야 하는지도 불분명!
 export const routerContext = React.createContext({});
@@ -46,3 +49,15 @@ export class Router extends React.Component {
     );
   }
 }
+
+export const Routes = () => (
+  <routerContext.Consumer>
+    {({path}) => (
+      <>
+        {path === "/cart" && <CartPage />}
+        {path === "/order" && <OrderPage />}
+        {!["/order", "/cart"].includes(path) && <ProductPage />}
+      </>
+    )} 
+  </routerContext.Consumer>
+);
