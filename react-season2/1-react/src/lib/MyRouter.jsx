@@ -1,9 +1,48 @@
-export const Link = ({ to, ...rest }) => {
-  const handleClick = (e) => {
-    // Link 컴포넌트의 기본 동작인 서버로 href 속성으로의 접속 요청을 보내는 것을 막음.
-    // 브라우저에서 라우팅 처리를 할 수 있는 기반을 마련.
-    e.preventDefault();
-  };
+import React from "react";
+// Router의 this.state.path를 전달하기 위해.
+// 근데 목적지가 불분명! 어디까지 내려가야 하는지도 불분명!
+export const routerContext = React.createContext({});
+routerContext.displayName = 'RouterContext';  // Context에 이름 붙이기
 
-  return <a {...rest} href={to} onClick={handleClick} />;
-};
+export const Link = ({ to, ...rest }) => (
+  <routerContext.Consumer>
+    {({ path, changePath }) => {
+      const handleClick = (e) => {
+        // Link 컴포넌트의 기본 동작인 서버로 href 속성으로의 접속 요청을 보내는 것을 막음.
+        // 브라우저에서 라우팅 처리를 할 수 있는 기반을 마련.
+        e.preventDefault();
+
+        if (to !== path) changePath(to);
+      };
+
+      return <a {...rest} href={to} onClick={handleClick} />;
+    }}
+  </routerContext.Consumer>
+);
+
+export class Router extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      path: window.location.pathname,
+    };
+    this.handleChangePath = this.handleChangePath.bind(this); // 비동기로 동작하므로 this 바인딩
+  }
+  // 인자로 받은 path로 경로 변경
+  handleChangePath(path) {
+    this.setState({ path });
+  }
+
+  render() {
+    const contextValue = {
+      path: this.state.path,
+      changePath: this.handleChangePath,
+    };
+
+    return (
+      <routerContext.Provider value={contextValue}>
+        {this.props.children}
+      </routerContext.Provider>
+    );
+  }
+}
