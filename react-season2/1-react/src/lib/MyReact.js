@@ -1,3 +1,4 @@
+import React from "react";
 import createEvenEmitter from "shared/lib/EventEmitter";
 // context를 만드는 createContext 함수를 제공하는 모듈
 const MyReact = (function () {

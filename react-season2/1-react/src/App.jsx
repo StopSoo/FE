@@ -28,6 +28,7 @@ export default App;
 
 // setTimeout(() => eventEmitter.set(10), 3000); // 비동기 동작도 가능.
 
+import React from "react";
 import MyReact from "./lib/MyReact";
 
 const countContext = MyReact.createContext({
