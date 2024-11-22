@@ -1,11 +1,17 @@
 import ProductItem from "../../components/ProductItem";
+import * as MyRouter from "../../lib/MyRouter";
 
-const OrderableProductItem = ({ product }) => {
-  const handleClick = () => {
-    console.log("// TODO: 장바구니 화면으로 이동.")
-  };
+const OrderableProductItem = ({ product }) => (
+  <MyRouter.routerContext.Consumer>
+    {({ changePath }) => {
+      const handleClick = () => {
+        // 장바구니 페이지로 이동
+        changePath('/cart');
+      };
 
-  return <ProductItem product={product} onClick={handleClick} />;
-};
+      return <ProductItem product={product} onClick={handleClick} />;
+    }}
+  </MyRouter.routerContext.Consumer>
+);
 
 export default OrderableProductItem;

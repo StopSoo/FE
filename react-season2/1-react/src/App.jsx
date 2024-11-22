@@ -2,6 +2,7 @@ import ProductPage from "./pages/ProductPage/index";
 import OrderPage from "./pages/OrderPage/index";
 import CartPage from "./pages/CartPage";
 import * as MyRouter from "./lib/MyRouter";
+import { getComponentName}  from "./lib/utils.js";
 // Context를 사용하려면 Provider로 감싸야 하고, Consumer는 Provider로 감싸야 한다(!)
 // Provider: Router | Consumer: Routes
 const App = () => (
@@ -14,61 +15,54 @@ const App = () => (
   </MyRouter.Router>
 );
 
-export default App;
+// export default App;
 
-// MyReact 활용 예시 코드
+// 고차 컴포넌트 활용 예시 코드
 import React from "react";
-import MyReact from "./lib/MyReact";
 
-const countContext = MyReact.createContext({
-  count: 0,
-  setCount: () => {},
-});
-// provider
-class CountProvider extends React.Component {
-  constructor(props) {
-    super(props);
+class Header extends React.Component {
+  render() {
+    return <header>Header</header>;
+  }
+}
 
-    this.state = { count: 0 };
+class Button extends React.Component {
+  handleClick = () => {
+    this.props.log("클릭");
   }
 
   render() {
-    const value = {
-      count: this.state.count,
-      setCount: (nextValue) => this.setState({ count: nextValue }),
-    };
-
-    return (
-      <countContext.Provider value={value}>
-        {this.props.children}
-      </countContext.Provider>
-    );
+    return <button onClick={this.handleClick}>버튼</button>;
   }
 }
-// consumer
-const Count = () => {
-  return (
-    <countContext.Consumer>
-      {(value) => <div>{value.count}</div>}
-    </countContext.Consumer>
-  );
-};
+// 고차 컴포넌트
+const withLogging = (WrappedComponent) => {
+  function log(message) {
+    console.log(`[${getComponentName(WrappedComponent)}] ${message}`);
+  }
 
-const PlusButton = () => {
-  return (
-    <countContext.Consumer>
-      {(value) => (
-        <button onClick={() => value.setCount(value.count + 1)}>
-          + 카운트 올리기
-        </button>
-      )}
-    </countContext.Consumer>
-  );
-};
+  class WithLogging extends React.Component {
+    render() {
+      const enhancedProps = {
+        log,
+      };
+      return <WrappedComponent {...this.props} {...enhancedProps} />;
+    }
 
-// export default () => (
-//   <CountProvider>
-//     <Count />
-//     <PlusButton />
-//   </CountProvider>
-// );
+    componentDidMount() {
+      log("마운트");
+    }
+  }
+
+  return WithLogging;
+}
+
+const EnhancedHeader = withLogging(Header);
+const EnhancedButton = withLogging(Button);
+
+export default () => (
+  <>
+    <EnhancedHeader />
+    <EnhancedButton />
+  </>
+);
