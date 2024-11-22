@@ -28,7 +28,7 @@ const MyReact = (function () {
         };
         this.setValue = this.setValue.bind(this); // 비동기 작업이므로 this 바인딩
       }
-
+      // Provider에서 emitter.set()을 호출하면 이벤트가 발생됨.
       setValue(nextValue) {
         this.setState({ value: nextValue });
       }

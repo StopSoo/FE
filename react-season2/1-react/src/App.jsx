@@ -1,7 +1,6 @@
 import ProductPage from "./pages/ProductPage/index";
 import OrderPage from "./pages/OrderPage/index";
 import CartPage from "./pages/CartPage";
-import createEventEmitter from "shared/lib/EventEmitter";
 import * as MyRouter from "./lib/MyRouter";
 // Context를 사용하려면 Provider로 감싸야 하고, Consumer는 Provider로 감싸야 한다(!)
 // Provider: Router | Consumer: Routes
@@ -17,17 +16,7 @@ const App = () => (
 
 export default App;
 
-// 이벤트 에미터
-// const eventEmitter = createEvenEmitter(0);
-// const logger = (value) => console.log(value);
-
-// eventEmitter.on(logger);
-// console.log(eventEmitter.get());  // 0
-// eventEmitter.set(1);  // 1
-// eventEmitter.set(2);  // 2
-
-// setTimeout(() => eventEmitter.set(10), 3000); // 비동기 동작도 가능.
-
+// MyReact 활용 예시 코드
 import React from "react";
 import MyReact from "./lib/MyReact";
 

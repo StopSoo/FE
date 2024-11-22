@@ -1,7 +1,4 @@
 import React from "react";
-import CartPage from "../pages/CartPage";
-import OrderPage from "../pages/OrderPage";
-import ProductPage from "../pages/ProductPage";
 // Router의 this.state.path를 전달하기 위해.
 // 근데 목적지가 불분명! 어디까지 내려가야 하는지도 불분명!
 export const routerContext = React.createContext({});
@@ -31,9 +28,10 @@ export class Router extends React.Component {
     };
     this.handleChangePath = this.handleChangePath.bind(this); // 비동기로 동작하므로 this 바인딩
   }
-  // 인자로 받은 path로 경로 변경
+  
   handleChangePath(path) {
-    this.setState({ path });
+    this.setState({ path });  // path 값을 인자 값으로 변경
+    window.history.pushState("", "", path);
   }
 
   render() {
