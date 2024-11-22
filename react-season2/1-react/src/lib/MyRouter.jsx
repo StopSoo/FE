@@ -26,12 +26,32 @@ export class Router extends React.Component {
     this.state = {
       path: window.location.pathname,
     };
-    this.handleChangePath = this.handleChangePath.bind(this); // 비동기로 동작하므로 this 바인딩
+    // 비동기로 동작하므로 this 바인딩
+    this.handleChangePath = this.handleChangePath.bind(this);
+    this.handleOnPopState = this.handleOnPopState.bind(this);
   }
-  
+
   handleChangePath(path) {
-    this.setState({ path });  // path 값을 인자 값으로 변경
-    window.history.pushState("", "", path);
+    this.setState({ path }); // path 값을 인자 값으로 변경
+    window.history.pushState({ path }, "", path); // 주소창 주소 변경
+  }
+  // popState 이벤트가 발행됐을 때(브라우저의 앞/뒤로 가기) 경로 변경하는 함수
+  handleOnPopState(event) {
+    const nextPath = event.state && event.state.path;
+
+    if (!nextPath) return;
+    this.setState({ path: nextPath });
+  }
+
+  componentDidMount() {
+    // 브라우저의 앞/뒤로 가기 이벤트(popstate)가 발행되면 handleOnPopState 함수를 실행
+    window.addEventListener("popstate", this.handleOnPopState);
+    // 컴포넌트 렌더링 시 현재 경로로 state 저장 (설정하지 않으면 null)
+    window.history.replaceState({ path: this.state.path }, ""); 
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("popstate", this.handleOnPopState);
   }
 
   render() {
@@ -56,9 +76,9 @@ export const Routes = ({ children }) => {
 
         React.Children.forEach(children, (child) => {
           if (!React.isValidElement(child)) return; // 리액트 Element인지 검사
-          if (child.type === React.Fragment) return;  // <></>인지 검사
-          if (!child.props.path || !child.props.element) return;  // Route 컴포넌트가 맞는지 검사
-          if (child.props.path !== path.replace(/\?.*$/, "")) return;  // 요청 경로를 검사(query 문자열 제거)
+          if (child.type === React.Fragment) return; // <></>인지 검사
+          if (!child.props.path || !child.props.element) return; // Route 컴포넌트가 맞는지 검사
+          if (child.props.path !== path.replace(/\?.*$/, "")) return; // 요청 경로를 검사(query 문자열 제거)
 
           selectedRoute = child.props.element;
         });
