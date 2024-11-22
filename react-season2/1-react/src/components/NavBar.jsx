@@ -1,14 +1,16 @@
 import * as MyRouter from "../lib/MyRouter";
 
-const NavBar = () => {
+const NavBar = ({ match }) => {
   return (
     <nav className="Navbar">
-      <MyRouter.Link className="active" to="/">
+      <MyRouter.Link className={match("/") ? "active" : ""} to="/">
         메뉴목록
       </MyRouter.Link>
-      <MyRouter.Link to="/order">주문내역</MyRouter.Link>
+      <MyRouter.Link className={match("/order") ? "active" : ""} to="/order">
+        주문내역
+      </MyRouter.Link>
     </nav>
   );
 };
 
-export default NavBar;
+export default MyRouter.withRouter(NavBar);

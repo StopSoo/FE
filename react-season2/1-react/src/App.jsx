@@ -15,7 +15,7 @@ const App = () => (
   </MyRouter.Router>
 );
 
-// export default App;
+export default App;
 
 // 고차 컴포넌트 활용 예시 코드
 import React from "react";
@@ -60,9 +60,9 @@ const withLogging = (WrappedComponent) => {
 const EnhancedHeader = withLogging(Header);
 const EnhancedButton = withLogging(Button);
 
-export default () => (
-  <>
-    <EnhancedHeader />
-    <EnhancedButton />
-  </>
-);
+// export default () => (
+//   <>
+//     <EnhancedHeader />
+//     <EnhancedButton />
+//   </>
+// );

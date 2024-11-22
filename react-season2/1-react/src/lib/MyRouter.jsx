@@ -100,14 +100,17 @@ export const withRouter = (WrappedComponent) => {
           if (path !== nextPath) changePath(nextPath);
         };
 
+        const match = (comparedPath) => comparedPath === path;
+
         const enhancedProps = {
           navigate,
+          match,
         };
 
         return <WrappedComponent {...props} {...enhancedProps} />;
       }}
     </routerContext.Consumer>
   );
-  WithRouter.displayName = `WithRouter(${getComponentName(WrappedComponent)})`
+  WithRouter.displayName = `WithRouter(${getComponentName(WrappedComponent)})`;
   return WithRouter;
 };
