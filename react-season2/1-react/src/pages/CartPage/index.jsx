@@ -5,6 +5,7 @@ import Title from "../../components/Title";
 import OrderForm from "./OrderForm";
 import PaymentButton from "./PaymentButton";
 import ProductApi from "shared/api/ProductApi";
+import * as MyRouter from '../../lib/MyRouter';
 
 class CartPage extends React.Component {
   constructor(props) {
@@ -27,10 +28,11 @@ class CartPage extends React.Component {
   async componentDidMount() {
     this.fetch();
   }
-  // 콜백 함수
-  // OrderForm을 통해 전달 받은 주문 정보를 가져옴.
+  // 콜백 함수: OrderForm을 통해 전달 받은 주문 정보를 가져옴.
   handleSubmit(values) {
     console.log(values);
+    // 주문하기 페이지로 이동
+    this.props.navigate("/order");
   }
 
   render() {
@@ -50,4 +52,4 @@ class CartPage extends React.Component {
   }
 }
 
-export default CartPage;
+export default MyRouter.withRouter(CartPage);

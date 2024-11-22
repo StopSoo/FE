@@ -1,4 +1,5 @@
 import React from "react";
+import { getComponentName } from "./utils";
 // Router의 this.state.path를 전달하기 위해.
 // 근데 목적지가 불분명! 어디까지 내려가야 하는지도 불분명!
 export const routerContext = React.createContext({});
@@ -47,7 +48,7 @@ export class Router extends React.Component {
     // 브라우저의 앞/뒤로 가기 이벤트(popstate)가 발행되면 handleOnPopState 함수를 실행
     window.addEventListener("popstate", this.handleOnPopState);
     // 컴포넌트 렌더링 시 현재 경로로 state 저장 (설정하지 않으면 null)
-    window.history.replaceState({ path: this.state.path }, ""); 
+    window.history.replaceState({ path: this.state.path }, "");
   }
 
   componentWillUnmount() {
@@ -90,3 +91,23 @@ export const Routes = ({ children }) => {
 };
 
 export const Route = () => null;
+
+export const withRouter = (WrappedComponent) => {
+  const WithRouter = (props) => (
+    <routerContext.Consumer>
+      {({ path, changePath }) => {
+        const navigate = (nextPath) => {
+          if (path !== nextPath) changePath(nextPath);
+        };
+
+        const enhancedProps = {
+          navigate,
+        };
+
+        return <WrappedComponent {...props} {...enhancedProps} />;
+      }}
+    </routerContext.Consumer>
+  );
+  WithRouter.displayName = `WithRouter(${getComponentName(WrappedComponent)})`
+  return WithRouter;
+};
