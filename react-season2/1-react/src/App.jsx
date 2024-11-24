@@ -3,6 +3,8 @@ import OrderPage from "./pages/OrderPage/index";
 import CartPage from "./pages/CartPage";
 import * as MyRouter from "./lib/MyRouter";
 import { getComponentName}  from "./lib/utils.js";
+import Dialog from "./components/Dialog.jsx";
+import Backdrop from "./components/BackDrop.jsx";
 // Context를 사용하려면 Provider로 감싸야 하고, Consumer는 Provider로 감싸야 한다(!)
 // Provider: Router | Consumer: Routes
 const App = () => (
@@ -12,6 +14,10 @@ const App = () => (
       <MyRouter.Route path="/order" element={<OrderPage />} />
       <MyRouter.Route path="/" element={<ProductPage />} />
     </MyRouter.Routes>
+    <Backdrop>
+      <Dialog />
+    </Backdrop>
+
   </MyRouter.Router>
 );
 
