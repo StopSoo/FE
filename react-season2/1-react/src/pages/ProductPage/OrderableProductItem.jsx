@@ -4,7 +4,7 @@ import * as MyRouter from "../../lib/MyRouter";
 const OrderableProductItem = ({ product, navigate }) => {
       const handleClick = () => {
         // 장바구니 페이지로 이동
-        navigate('/cart');
+        navigate(`/cart?productId=${product.id}`);
       };
       return <ProductItem product={product} onClick={handleClick} />;
   };

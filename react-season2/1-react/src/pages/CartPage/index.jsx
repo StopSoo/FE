@@ -5,7 +5,7 @@ import Title from "../../components/Title";
 import OrderForm from "./OrderForm";
 import PaymentButton from "./PaymentButton";
 import ProductApi from "shared/api/ProductApi";
-import * as MyRouter from '../../lib/MyRouter';
+import * as MyRouter from "../../lib/MyRouter";
 
 class CartPage extends React.Component {
   constructor(props) {
@@ -17,8 +17,10 @@ class CartPage extends React.Component {
   }
 
   async fetch() {
+    const { productId } = this.props.params();
+
     try {
-      const product = await ProductApi.fetchProduct("CACDA421"); // id를 동적으로 받아야 함.
+      const product = await ProductApi.fetchProduct(productId);
       this.setState({ product });
     } catch (e) {
       console.error(e);

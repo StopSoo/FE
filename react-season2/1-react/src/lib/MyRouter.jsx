@@ -96,15 +96,27 @@ export const withRouter = (WrappedComponent) => {
   const WithRouter = (props) => (
     <routerContext.Consumer>
       {({ path, changePath }) => {
+        // 주소 이동하기
         const navigate = (nextPath) => {
           if (path !== nextPath) changePath(nextPath);
         };
-
+        // 주소 일치 여부 확인
         const match = (comparedPath) => comparedPath === path;
+        // 쿼리 스트링 이용하기
+        const params = () => {
+          const params = new URLSearchParams(window.location.search);
+          
+          const paramsObject = {};
+          for (const [key, value] of params) {
+            paramsObject[key] = value;
+          }
+          return paramsObject;
+        }
 
         const enhancedProps = {
           navigate,
           match,
+          params
         };
 
         return <WrappedComponent {...props} {...enhancedProps} />;
