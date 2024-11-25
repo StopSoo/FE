@@ -2,23 +2,20 @@ import ProductPage from "./pages/ProductPage/index";
 import OrderPage from "./pages/OrderPage/index";
 import CartPage from "./pages/CartPage";
 import * as MyRouter from "./lib/MyRouter";
-import { getComponentName}  from "./lib/utils.js";
-import Dialog from "./components/Dialog.jsx";
-import Backdrop from "./components/BackDrop.jsx";
+import * as MyLayout from "./lib/MyLayout.jsx";
+import { getComponentName } from "./lib/utils.js";
 // Context를 사용하려면 Provider로 감싸야 하고, Consumer는 Provider로 감싸야 한다(!)
 // Provider: Router | Consumer: Routes
 const App = () => (
-  <MyRouter.Router>
-    <MyRouter.Routes>
-      <MyRouter.Route path="/cart" element={<CartPage />} />
-      <MyRouter.Route path="/order" element={<OrderPage />} />
-      <MyRouter.Route path="/" element={<ProductPage />} />
-    </MyRouter.Routes>
-    <Backdrop>
-      <Dialog />
-    </Backdrop>
-
-  </MyRouter.Router>
+  <MyLayout.Layout>
+    <MyRouter.Router>
+      <MyRouter.Routes>
+        <MyRouter.Route path="/cart" element={<CartPage />} />
+        <MyRouter.Route path="/order" element={<OrderPage />} />
+        <MyRouter.Route path="/" element={<ProductPage />} />
+      </MyRouter.Routes>
+    </MyRouter.Router>
+  </MyLayout.Layout>
 );
 
 export default App;
@@ -35,7 +32,7 @@ class Header extends React.Component {
 class Button extends React.Component {
   handleClick = () => {
     this.props.log("클릭");
-  }
+  };
 
   render() {
     return <button onClick={this.handleClick}>버튼</button>;
@@ -61,7 +58,7 @@ const withLogging = (WrappedComponent) => {
   }
 
   return WithLogging;
-}
+};
 
 const EnhancedHeader = withLogging(Header);
 const EnhancedButton = withLogging(Button);
