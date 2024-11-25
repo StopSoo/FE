@@ -10,13 +10,20 @@ export class Layout extends React.Component {
     super(props);
 
     this.state = {
-      dialog: <Dialog />,
+      dialog: null,
     };
+    // 비동기적으로 동작하기 때문에 this 바인딩
+    this.setDialog = this.setDialog.bind(this);
+  }
+
+  setDialog(dialog) {
+    this.setState({dialog});
   }
 
   render() {
     const value = {
       dialog: this.state.dialog,
+      setDialog: this.setDialog,
     };
 
     return (
