@@ -15,21 +15,21 @@ class ProductPage extends React.Component {
       productList: [],
     };
   }
-  // data fetching 함수
-  async fetch() {
-    const { openDialog, closeDialog } = this.props;
-    openDialog(<Dialog />);
-    try {
-      const productList = await ProductApi.fetchProductList();
-      this.setState({ productList });
-      closeDialog();
-    } catch (e) {
-      console.error(e);
-    }
-  }
   // 컴포넌트가 mount되었을 때만 fetch 함수를 실행
   componentDidMount() {
     this.fetch();
+  }
+  // data fetching 함수
+  async fetch() {
+    const { startLoading, finishLoading } = this.props;
+    startLoading("메뉴 목록 로딩 중 ...");
+    try {
+      const productList = await ProductApi.fetchProductList();
+      this.setState({ productList });
+      finishLoading();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   render() {

@@ -39,12 +39,19 @@ export const withLayout = (WrappedComponent) => {
   const WithLayout = (props) => (
     <layoutContext.Consumer>
       {({ dialog, setDialog }) => {
-        const openDialog = () => setDialog;
+        const openDialog = setDialog;
         const closeDialog = () => setDialog(null);
+        // 좀 더 개선된 버전
+        const startLoading = (message) =>
+          openDialog(<Dialog>{message}</Dialog>);
+        const finishLoading = closeDialog;
+
         const enhancedProps = {
           dialog,
           openDialog,
           closeDialog,
+          startLoading,
+          finishLoading,
         };
 
         return <WrappedComponent {...props} {...enhancedProps} />;
@@ -55,6 +62,6 @@ export const withLayout = (WrappedComponent) => {
   return WithLayout;
 };
 // dialog 상태에 따라 노출시키기
-export const DialogContainer = withLayout(({dialog}) => (
+export const DialogContainer = withLayout(
   ({ dialog }) => dialog && <Backdrop>{dialog}</Backdrop>
-));
+);
