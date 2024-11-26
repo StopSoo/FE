@@ -5,7 +5,6 @@ import Page from "../../components/Page";
 import Title from "../../components/Title";
 import ProductApi from "shared/api/ProductApi"; // workspace
 import OrderableProductItem from "./OrderableProductItem";
-import Dialog from "../../components/Dialog";
 // 상태 관리를 위해 class 컴포넌트로 구현
 class ProductPage extends React.Component {
   constructor(props) {
