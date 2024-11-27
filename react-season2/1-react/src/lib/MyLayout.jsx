@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import Dialog from "../components/Dialog";
 import Backdrop from "../components/BackDrop";
 import { getComponentName } from "./utils";
@@ -63,5 +64,10 @@ export const withLayout = (WrappedComponent) => {
 };
 // dialog 상태에 따라 노출시키기
 export const DialogContainer = withLayout(
-  ({ dialog }) => dialog && <Backdrop>{dialog}</Backdrop>
+  ({ dialog }) =>
+    dialog &&
+    ReactDOM.createPortal(
+      <Backdrop>{dialog}</Backdrop>,
+      document.querySelector("#dialog")
+    )
 );
