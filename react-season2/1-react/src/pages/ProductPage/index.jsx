@@ -27,7 +27,7 @@ class ProductPage extends React.Component {
     try {
       const productList = await ProductApi.fetchProductList();
       this.setState({ productList });
-      throw 'fake error';
+      // throw 'fake error';
     } catch (e) {
       openDialog(<ErrorDialog />);
       return;

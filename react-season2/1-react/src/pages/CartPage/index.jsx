@@ -5,9 +5,12 @@ import Title from "../../components/Title";
 import OrderForm from "./OrderForm";
 import PaymentButton from "./PaymentButton";
 import ProductApi from "shared/api/ProductApi";
+import OrderApi from "shared/api/OrderApi";
 import * as MyRouter from "../../lib/MyRouter";
 import * as MyLayout from "../../lib/MyLayout";
 import ErrorDialog from "../../components/ErrorDialog";
+import Dialog from "../../components/Dialog";
+import PaymentSuccessDialog from "./PaymentSuccessDialog";
 
 class CartPage extends React.Component {
   constructor(props) {
@@ -26,7 +29,7 @@ class CartPage extends React.Component {
     try {
       const product = await ProductApi.fetchProduct(productId);
       this.setState({ product });
-      throw 'fake error';
+      // throw "fake error";
     } catch (e) {
       openDialog(<ErrorDialog />);
       return;
@@ -38,10 +41,19 @@ class CartPage extends React.Component {
     this.fetch();
   }
   // 콜백 함수: OrderForm을 통해 전달 받은 주문 정보를 가져옴.
-  handleSubmit(values) {
-    console.log(values);
-    // 주문하기 페이지로 이동
-    this.props.navigate("/order");
+  async handleSubmit(values) {
+    const { startLoading, finishLoading, openDialog } = this.props;
+    startLoading('결제 중 ...');
+    // api 호출
+    try {
+      await OrderApi.createOrder(values);
+    } catch (e) {
+      openDialog(<ErrorDialog />);
+      return;
+    }
+    finishLoading();
+    openDialog(<PaymentSuccessDialog />);
+    // this.props.navigate("/order");  // 주문하기 페이지로 이동
   }
 
   render() {

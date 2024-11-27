@@ -25,7 +25,7 @@ class OrderPage extends React.Component {
     try {
       const order = await OrderApi.fetchMyOrder();
       this.setState({ order });
-      throw 'fake error';
+      // throw 'fake error';
     } catch (e) {
       openDialog(<ErrorDialog />);
       return;
