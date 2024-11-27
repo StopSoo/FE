@@ -5,6 +5,7 @@ import Page from "../../components/Page";
 import Title from "../../components/Title";
 import ProductApi from "shared/api/ProductApi"; // workspace
 import OrderableProductItem from "./OrderableProductItem";
+import ErrorDialog from "../../components/ErrorDialog";
 // 상태 관리를 위해 class 컴포넌트로 구현
 class ProductPage extends React.Component {
   constructor(props) {
@@ -20,15 +21,18 @@ class ProductPage extends React.Component {
   }
   // data fetching 함수
   async fetch() {
-    const { startLoading, finishLoading } = this.props;
+    const { startLoading, finishLoading, openDialog } = this.props;
+
     startLoading("메뉴 목록 로딩 중 ...");
     try {
       const productList = await ProductApi.fetchProductList();
       this.setState({ productList });
-      finishLoading();
+      throw 'fake error';
     } catch (e) {
-      console.error(e);
+      openDialog(<ErrorDialog />);
+      return;
     }
+    finishLoading();
   }
 
   render() {

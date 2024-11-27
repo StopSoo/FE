@@ -7,6 +7,7 @@ import PaymentButton from "./PaymentButton";
 import ProductApi from "shared/api/ProductApi";
 import * as MyRouter from "../../lib/MyRouter";
 import * as MyLayout from "../../lib/MyLayout";
+import ErrorDialog from "../../components/ErrorDialog";
 
 class CartPage extends React.Component {
   constructor(props) {
@@ -18,16 +19,19 @@ class CartPage extends React.Component {
   }
 
   async fetch() {
-    const { params, startLoading, finishLoading } = this.props;
+    const { params, startLoading, finishLoading, openDialog } = this.props;
     const { productId } = params();
+
     startLoading("장바구니에 담는 중 ...");
     try {
       const product = await ProductApi.fetchProduct(productId);
       this.setState({ product });
-      finishLoading();
+      throw 'fake error';
     } catch (e) {
-      console.error(e);
+      openDialog(<ErrorDialog />);
+      return;
     }
+    finishLoading();
   }
 
   async componentDidMount() {
