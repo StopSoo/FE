@@ -1,29 +1,54 @@
-const App = () => <>2-hook</>;
+import React from "react";
+
+// const App = () => <>2-hook</>;
+// export default App;
+
+// 클래스
+class Contract extends React.Component {
+  render() {
+    // 기본적으로는 렌더링 시점의 값 고정이 불가능.
+    // 따라서 아래와 같이 클로저를 이용하여 렌더링 시점의 값을 고정시키고 사용.
+    const props = this.props;
+    const sign = () => {
+      setTimeout(() => console.log("서명인: ", props.name), 3000);
+    }
+
+    return <button onClick={sign}>서명</button>;
+  }
+}
+// 함수
+function Contract2(props) {
+  // 렌더링 시점의 값을 고정시킬 수 있음(!)
+  const sign = () => {
+    setTimeout(() => console.log("서명인: ", props.name), 3000);
+  }
+
+  return <button onClick={sign}>서명</button>;
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "사용자1",
+    };
+  }
+
+  handleChange(e) {
+    this.setState({ name: e.target.value });
+  }
+
+  render() {
+    return (
+      <>
+        <select value={this.state.name} onChange={this.handleChange.bind(this)}>
+          <option value="사용자1">사용자1</option>
+          <option value="사용자2">사용자2</option>
+        </select>
+        <Contract name={this.state.name} />
+      </>
+    );
+  }
+}
 
 export default App;
-// 클래스
-class Contract {
-  constructor(name) {
-    this.name = name;
-  }
-
-  sign() {
-    const capturedName = this.name;
-    setTimeout(() => console.log("서명인: ", capturedName), 3000);
-  }
-}
-
-// const contract = new Contract("사용자1"); // 인스턴스를 생성
-// contract.sign();
-// contract.name = "사용자2"; // setTimeOut 함수 실행 전에 변수 값이 변경됨
-
-// 함수
-function createContract(name) {
-  const sign = () => {
-    setTimeout(() => console.log("서명인: ", name), 3000);
-  };
-  return { sign };
-}
-
-const contract = createContract("사용자3"); // 클래스와 다르게 변수 값 변경 불가능
-contract.sign();
