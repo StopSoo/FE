@@ -4,17 +4,21 @@ import MyReact from "./lib/MyReact";
 // export default App;
 
 function NameField() {
-  const [firstName, setFirstName] = MyReact.useState("지수");
-  const [lastName, setLastName] = MyReact.useState("정");
+  const [firstName, setFirstName] = MyReact.useState(0, "지수");
+  const [lastName, setLastName] = MyReact.useState(1, "정");
 
-  const handleChange = (e) => {
+  const handleChangeFirstName = (e) => {
     setFirstName(e.target.value);
+  };
+
+  const handleChangeLastName = (e) => {
+    setLastName(e.target.value);
   };
 
   return (
     <>
-      <input value={firstName} onChange={handleChange} />
-      <input value={lastName} onChange={handleChange} />
+      <input value={firstName} onChange={handleChangeFirstName} />
+      <input value={lastName} onChange={handleChangeLastName} />
     </>
   );
 }
