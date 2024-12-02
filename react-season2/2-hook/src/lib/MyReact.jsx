@@ -39,7 +39,8 @@ const MyReact = (function MyReact() {
   }
   // effect: 부수 효과
   // nextDeps: 다중 의존성 배열
-  // 관련된 변수에 대해서만 useEffect()가 동작해야 함
+  // 관련된 변수에 대해서만 useEffect()가 동작해야 함.
+  // 의존성 인자인 nextDeps가 없을 경우, 컴포넌트 리렌더링 시마다 실행됨.
   function useEffect(effect, nextDeps) {
     function runDeferredEffect() {
       const ENOUGH_TIME_TO_RENDER = 1;
