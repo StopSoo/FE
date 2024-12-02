@@ -2,6 +2,7 @@ import React from "react";
 
 const MyReact = (function MyReact() {
   const memorizedStates = []; // 현재 변수에 저장된 값
+  let dep;  // 의존성 변수
   const isInitialized = []; // 변수 초기화 여부
   let cursor = 0; // 현재 변수의 인덱스
   // 상태 관리 & 값 변경 시 화면 리렌더링
@@ -37,12 +38,23 @@ const MyReact = (function MyReact() {
     return { forceUpdate };
   }
   // effct: 부수 효과
-  function useEffect(effect) {
+  // 관련된 변수에 대해서만 useEffect()가 동작해야 함
+  function useEffect(effect, nextDep) {
     function runDeferredEffect() {
       const ENOUGH_TIME_TO_RENDER = 1;
       setTimeout(effect, ENOUGH_TIME_TO_RENDER);
     }
 
+    if (!isInitialized[cursor]) {
+      isInitialized[cursor] = true;
+      dep = nextDep;
+      runDeferredEffect();
+      return;
+    }
+
+    if (dep === nextDep) return;
+
+    dep = nextDep;
     runDeferredEffect();
   }
   return { useState, useEffect };
