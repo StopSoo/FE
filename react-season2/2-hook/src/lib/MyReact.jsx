@@ -2,7 +2,7 @@ import React from "react";
 
 const MyReact = (function MyReact() {
   const memorizedStates = []; // 현재 변수에 저장된 값
-  let dep;  // 의존성 변수
+  const deps = [];  // useEffect에 넘기는 변수의 의존성
   const isInitialized = []; // 변수 초기화 여부
   let cursor = 0; // 현재 변수의 인덱스
   // 상태 관리 & 값 변경 시 화면 리렌더링
@@ -37,7 +37,7 @@ const MyReact = (function MyReact() {
 
     return { forceUpdate };
   }
-  // effct: 부수 효과
+  // effect: 부수 효과
   // 관련된 변수에 대해서만 useEffect()가 동작해야 함
   function useEffect(effect, nextDep) {
     function runDeferredEffect() {
@@ -47,17 +47,28 @@ const MyReact = (function MyReact() {
 
     if (!isInitialized[cursor]) {
       isInitialized[cursor] = true;
-      dep = nextDep;
+      deps[cursor] = nextDep;
+      cursor = cursor + 1;  // 다음 변수에 대해 동작하도록 미리 설정
       runDeferredEffect();
       return;
     }
 
-    if (dep === nextDep) return;
+    const prevDep = deps[cursor];
+    if (prevDep === nextDep) {
+      cursor = cursor + 1;  // 다음 변수에 대해 동작하도록 미리 설정
+      return;
+    }
 
-    dep = nextDep;
+    deps[cursor] = nextDep;
+    cursor = cursor + 1;  // 다음 변수에 대해 동작하도록 미리 설정
     runDeferredEffect();
   }
-  return { useState, useEffect };
+
+  function resetCursor() {
+    cursor = 0; // 커서를 초기화
+  }
+
+  return { useState, useEffect, resetCursor };
 })();
 
 export default MyReact;
