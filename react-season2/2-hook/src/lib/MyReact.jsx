@@ -1,10 +1,10 @@
 import React from "react";
-// 다중 상태를 처리할 수 있도록 리팩토링
+
 const MyReact = (function MyReact() {
   const memorizedStates = []; // 현재 변수에 저장된 값
   const isInitialized = []; // 변수 초기화 여부
   let cursor = 0; // 현재 변수의 인덱스
-
+  // 상태 관리 & 값 변경 시 화면 리렌더링
   function useState(initialValue = "") {
     const { forceUpdate } = useForceUpdate();
 
@@ -26,7 +26,7 @@ const MyReact = (function MyReact() {
     cursor = cursor + 1; 
     return [state, setState];
   }
-  // useState()를 활용해 컴포넌트가 강제 리렌더링되도록 구현
+  // React의 useState()를 활용해 컴포넌트가 강제 리렌더링되도록 구현
   function useForceUpdate() {
     const [value, setValue] = React.useState(1);
     const forceUpdate = () => {
@@ -36,8 +36,16 @@ const MyReact = (function MyReact() {
 
     return { forceUpdate };
   }
+  // effct: 부수 효과
+  function useEffect(effect) {
+    function runDeferredEffect() {
+      const ENOUGH_TIME_TO_RENDER = 1;
+      setTimeout(effect, ENOUGH_TIME_TO_RENDER);
+    }
 
-  return { useState };
+    runDeferredEffect();
+  }
+  return { useState, useEffect };
 })();
 
 export default MyReact;
