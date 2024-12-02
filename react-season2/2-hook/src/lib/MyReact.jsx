@@ -38,8 +38,9 @@ const MyReact = (function MyReact() {
     return { forceUpdate };
   }
   // effect: 부수 효과
+  // nextDeps: 다중 의존성 배열
   // 관련된 변수에 대해서만 useEffect()가 동작해야 함
-  function useEffect(effect, nextDep) {
+  function useEffect(effect, nextDeps) {
     function runDeferredEffect() {
       const ENOUGH_TIME_TO_RENDER = 1;
       setTimeout(effect, ENOUGH_TIME_TO_RENDER);
@@ -47,19 +48,20 @@ const MyReact = (function MyReact() {
 
     if (!isInitialized[cursor]) {
       isInitialized[cursor] = true;
-      deps[cursor] = nextDep;
+      deps[cursor] = nextDeps;
       cursor = cursor + 1;  // 다음 변수에 대해 동작하도록 미리 설정
       runDeferredEffect();
       return;
     }
-
-    const prevDep = deps[cursor];
-    if (prevDep === nextDep) {
+    // 의존성 변경 여부 체크
+    const prevDeps = deps[cursor];
+    const depsSame = prevDeps.every((prevDep, index) => prevDep === nextDeps[index]); 
+    if (depsSame) { // 의존성 변경 X 경우
       cursor = cursor + 1;  // 다음 변수에 대해 동작하도록 미리 설정
       return;
     }
 
-    deps[cursor] = nextDep;
+    deps[cursor] = nextDeps;
     cursor = cursor + 1;  // 다음 변수에 대해 동작하도록 미리 설정
     runDeferredEffect();
   }
