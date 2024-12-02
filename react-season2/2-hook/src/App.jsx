@@ -4,7 +4,7 @@ import MyReact from "./lib/MyReact";
 // export default App;
 
 const Counter = () => {
-  MyReact.resetCursor();  // 컴포넌트 렌더링과 동시에 커서를 초기화
+  MyReact.resetCursor(); // 컴포넌트 렌더링과 동시에 커서를 초기화
 
   const [count, setCount] = useState(0);
   const [name, setName] = useState("");
@@ -17,6 +17,11 @@ const Counter = () => {
   MyReact.useEffect(() => {
     document.title = `count: ${count} / name: ${name}`; // DOM API 직접 호출 -> 느린 렌더링.
     console.log("effect 1");
+
+    return function cleanup() {
+      document.title = ""; // 원래대로 바꿔놓을 목적
+      console.log("effect 1 cleanup");
+    };
   }, [count, name]);
 
   MyReact.useEffect(() => {
@@ -36,4 +41,20 @@ const Counter = () => {
   );
 };
 
-export default Counter;
+export default () => {
+  const [mounted, setMounted] = useState(false);
+
+  const handleToggle = () => {
+    const nextMounted = !mounted;
+    
+    if (!nextMounted) MyReact.cleanupEffects();
+    setMounted(nextMounted);
+  }
+
+  return (
+    <>
+      <button onClick={handleToggle}>Toggle</button>
+      {mounted && <Counter />}
+    </>
+  );
+};
