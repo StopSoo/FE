@@ -1,4 +1,5 @@
 import React from "react";
+import createEventEmitter from "shared/lib/EventEmitter";
 
 const MyReact = (function MyReact() {
   const memorizedStates = []; // 현재 변수에 저장된 값
@@ -61,7 +62,8 @@ const MyReact = (function MyReact() {
     }
     // 의존성 변경 여부 체크
     const prevDeps = deps[cursor];
-    const depsSame = prevDeps.every(  // every: 특정 조건을 만족하지 않으면 순회가 중단됨.
+    const depsSame = prevDeps.every(
+      // every: 특정 조건을 만족하지 않으면 순회가 중단됨.
       (prevDep, index) => prevDep === nextDeps[index]
     );
     if (depsSame) {
@@ -84,7 +86,35 @@ const MyReact = (function MyReact() {
     cleanups.forEach((cleanup) => typeof cleanup === "function" && cleanup());
   }
 
-  return { useState, useEffect, resetCursor, cleanupEffects };
+  function createContext(initialValue) {
+    const emitter = createEventEmitter(initialValue);
+    // value 값이 변경될 때 Consumer에게 알림
+    function Provider({ value, children }) {
+      // emitter 관련 작업은 부수 효과로 처리
+      useEffect(() => {
+        emitter.set(value);
+      }, [value]);
+
+      return <>{children}</>;
+    }
+    // Consumer 쪽에서 emitter의 get 함수를 사용할 수 있도록 emitter를 전달
+    return { Provider, emitter };
+  }
+  // context: createContext()를 통해 전달 받은 값
+  function useContext(context) {
+    const [value, setValue] = React.useState(context.emitter.get());
+
+    React.useEffect(() => {
+      // value 변경 시 컴포넌트가 리렌더링될 수 있도록
+      context.emitter.on(setValue);
+      // 컴포넌트 unmount 시 구독 해지
+      return () => context.emitter.off(setValue);
+    }, [context]);
+
+    return value;
+  }
+
+  return { useState, useEffect, createContext, useContext, resetCursor, cleanupEffects };
 })();
 
 export default MyReact;
