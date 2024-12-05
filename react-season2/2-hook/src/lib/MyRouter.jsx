@@ -63,8 +63,8 @@ export const Routes = ({ children }) => {
 
 export const Route = () => null;
 
-export const Link = ({to, ...rest}) => {
-  const {path, changePath} = useContext(routerContext);
+export const Link = ({ to, ...rest }) => {
+  const { path, changePath } = useContext(routerContext);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -72,4 +72,33 @@ export const Link = ({to, ...rest}) => {
   };
 
   return <a {...rest} href={to} onClick={handleClick} />;
+};
+
+/* Custom Hook: 내부에서 리액트 훅을 사용 */
+export const useNavigate = () => {
+  const { path, changePath } = useContext(routerContext);
+  const navigate = (nextPath) => {
+    if (path !== nextPath) changePath(nextPath);
+  };
+
+  return navigate;
+};
+
+export const useMatch = () => {
+  const { path } = useContext(routerContext);
+  const match = (comparePath) => path === comparePath;
+  return match;
+};
+
+export const useParams = () => {
+  // TODO: useMemo 사용
+  const params = () => {
+    const params = new URLSearchParams(window.location.search);
+    const paramObject = {};
+    for (const [key, value] of params) {
+      paramObject[key] = value;
+    }
+    return paramObject;
+  };
+  return params;
 };
