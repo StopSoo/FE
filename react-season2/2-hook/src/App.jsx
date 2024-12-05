@@ -1,44 +1,19 @@
 import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
 import OrderPage from "./pages/OrderPage";
-import MyReact from "./lib/MyReact";
-import { useState } from "react";
+import * as MyRouter from "./lib/MyRouter";
+
 const App = () => (
-  <>
-    {/* <ProductPage /> */}
-    {/* <CartPage /> */}
-    <OrderPage />
-  </>
+  <MyRouter.Router>
+    <MyRouter.Routes>
+      <MyRouter.Route path="/" element={<ProductPage />} />
+      <MyRouter.Route path="/cart" element={<CartPage />} />
+      <MyRouter.Route path="/order" element={<OrderPage />} />
+    </MyRouter.Routes>
+  </MyRouter.Router>
+  // <>
+  //   <ProductPage />
+  // </>
 );
 
-// export default App;
-
-const countContext = MyReact.createContext({});
-
-const CountProvider = ({ children }) => {
-  const [count, setCount] = useState(0);
-  const value = { count, setCount };
-  return (
-    <countContext.Provider value={value}>{children}</countContext.Provider>
-  );
-};
-
-const Count = () => {
-  const { count } = MyReact.useContext(countContext);
-
-  return <div>{count}</div>;
-};
-
-const PlusButton = () => {
-  const { count, setCount } = MyReact.useContext(countContext);
-  const handleClick = () => setCount(count + 1);
-
-  return <button onClick={handleClick}>더하기</button>;
-};
-
-export default () => (
-  <CountProvider>
-    <Count />
-    <PlusButton />
-  </CountProvider>
-);
+export default App;

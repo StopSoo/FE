@@ -4,11 +4,13 @@ import PaymentButton from "../../../../2-hook/src/pages/CartPage/PaymentButton";
 import Page from "../../components/Page";
 import ProductItem from "../../components/ProductItem";
 import Title from "../../components/Title";
-import { useEffect, useState } from "react";
+import React from "react";
 import OrderForm from "./OrderForm";
+import * as MyRouter from "../../lib/MyRouter";
 
 const CartPage = () => {
-  const [product, setProduct] = useState();
+  const [product, setProduct] = React.useState();
+  const { productId } = MyRouter.useParams();
 
   const fetch = async (productId) => {
     try {
@@ -20,9 +22,11 @@ const CartPage = () => {
     }
   };
   // fetch() 함수는 초기에 한 번만 실행되어야 함 => 의존성 인자로 빈 배열 전달.
-  useEffect(() => {
-    fetch("CACDA421"); // 일단 고정된 ID 값을 저장
-  }, []);
+  React.useEffect(() => {
+    if (!productId) return;
+
+    fetch(productId);
+  }, [productId]);
 
   const handleSubmit = async (values) => {
     try {

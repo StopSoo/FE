@@ -5,10 +5,10 @@ import OrderPayment from "../../pages/OrderPage/OrderPaymentCard";
 import OrderApi from "shared/api/OrderApi";
 import Page from "../../components/Page";
 import Title from "../../components/Title";
-import { useEffect, useState } from "react";
+import React from "react";
 
 const OrderPage = () => {
-  const [order, setOrder] = useState();
+  const [order, setOrder] = React.useState();
 
   const fetch = async () => {
     try {
@@ -19,7 +19,7 @@ const OrderPage = () => {
     }
   };
   // fetch() 함수는 초기에 한 번만 실행되어야 함 => 의존성 인자로 빈 배열 전달.
-  useEffect(() => {
+  React.useEffect(() => {
     fetch();
   }, []);
 

@@ -1,10 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import React from "react";
 
-const routerContext = createContext({});
+const routerContext = React.createContext({});
 routerContext.displayName = "RouterContext";
 
 export const Router = ({ children }) => {
-  const [path, setPath] = useState(window.location.pathname);
+  const [path, setPath] = React.useState(window.location.pathname);
 
   const changePath = (path) => {
     setPath(path);
@@ -17,7 +17,7 @@ export const Router = ({ children }) => {
     setPath(nextPath);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     // class 컴포넌트에서 componentDidMount()
     window.addEventListener("popstate", handlePopstate);
     window.history.replaceState({ path }, "");
@@ -25,7 +25,7 @@ export const Router = ({ children }) => {
     return () => {
       window.removeEventListener("popstate", handlePopstate);
     };
-  }, [path]);
+  }, []);
 
   const contextValue = {
     path,
@@ -40,13 +40,13 @@ export const Router = ({ children }) => {
 };
 // 전달 받은 Route 컴포넌트들 중 현재 경로에 해당하는 Route를 렌더링
 export const Routes = ({ children }) => {
-  const { path } = useContext(routerContext);
+  const { path } = React.useContext(routerContext);
 
   let selectedRoute = null;
 
   React.Children.forEach(children, (child) => {
     // element인지 검사
-    if (React.isValidElement(child)) return;
+    if (!React.isValidElement(child)) return;
     // fragment인지 검사
     if (child.type === React.Fragment) return;
     // Route 컴포넌트인지 검사
@@ -64,7 +64,7 @@ export const Routes = ({ children }) => {
 export const Route = () => null;
 
 export const Link = ({ to, ...rest }) => {
-  const { path, changePath } = useContext(routerContext);
+  const { path, changePath } = React.useContext(routerContext);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -76,7 +76,7 @@ export const Link = ({ to, ...rest }) => {
 
 /* Custom Hook: 내부에서 리액트 훅을 사용 */
 export const useNavigate = () => {
-  const { path, changePath } = useContext(routerContext);
+  const { path, changePath } = React.useContext(routerContext);
   const navigate = (nextPath) => {
     if (path !== nextPath) changePath(nextPath);
   };
@@ -85,7 +85,7 @@ export const useNavigate = () => {
 };
 
 export const useMatch = () => {
-  const { path } = useContext(routerContext);
+  const { path } = React.useContext(routerContext);
   const match = (comparePath) => path === comparePath;
   return match;
 };
