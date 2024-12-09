@@ -92,13 +92,10 @@ export const useMatch = () => {
 
 export const useParams = () => {
   // TODO: useMemo 사용
-  const params = () => {
-    const params = new URLSearchParams(window.location.search);
-    const paramObject = {};
-    for (const [key, value] of params) {
-      paramObject[key] = value;
-    }
-    return paramObject;
-  };
-  return params;
+  const params = new URLSearchParams(window.location.search);
+  const paramObject = {};
+  for (const [key, value] of params) {
+    paramObject[key] = value;
+  }
+  return paramObject;
 };
