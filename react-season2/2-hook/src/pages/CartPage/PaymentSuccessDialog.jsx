@@ -1,17 +1,19 @@
 import Button from "../../components/Button";
 import Dialog from "../../components/Dialog";
-import { useNavigate } from "../../lib/MyRouter";
+import * as MyRouter from "../../lib/MyRouter";
+import * as MyLayout from "../../lib/MyLayout";
 
 const PaymentSuccessDialog = () => {
-  const navigate = useNavigate(); 
-  
+  const navigate = MyRouter.useNavigate();
+  const { closeDialog } = MyLayout.useDialog();
+
   const handleClickNo = () => {
-    // TODO: closeDialog();
+    closeDialog();
     navigate("/");
   };
 
   const handleClickYes = () => {
-    // TODO: closeDialog();
+    closeDialog();
     navigate("/order");
   };
 

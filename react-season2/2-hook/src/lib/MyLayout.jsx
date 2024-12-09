@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import Backdrop from "../components/BackDrop";
 import Dialog from "../components/Dialog";
@@ -28,6 +28,8 @@ export const useDialog = () => {
 export const useLoading = () => {
   const { openDialog, closeDialog: finishLoading } = useDialog();
   const startLoading = (message) => openDialog(<Dialog>{message}</Dialog>);
+
+  return { startLoading, finishLoading };
 };
 
 export const DialogContainer = () => {

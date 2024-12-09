@@ -4,17 +4,25 @@ import Title from "../../components/Title";
 import Page from "../../components/Page";
 import Navbar from "../../components/NavBar";
 import OrderableProductItem from "./OrderableProductItem";
+import ErrorDialog from "../../components/ErrorDialog";
+import * as MyLayout from "../../lib/MyLayout";
 
 const ProductPage = () => {
   const [productList, setProductList] = useState([]);
+  const { openDialog } = MyLayout.useDialog();
+  const { startLoading, finishLoading } = MyLayout.useLoading();
 
   const fetch = async () => {
+    startLoading("메뉴 목록 로딩 중 ...");
     try {
       const productList = await ProductApi.fetchProductList();
       setProductList(productList);
     } catch (e) {
+      finishLoading();
+      openDialog(<ErrorDialog />);
       return;
     }
+    finishLoading();
   };
   // fetch() 함수는 초기에 한 번만 실행되어야 함 => 의존성 인자로 빈 배열 전달.
   useEffect(() => {
