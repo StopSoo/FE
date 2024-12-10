@@ -3,6 +3,7 @@ import CartPage from "./pages/CartPage";
 import OrderPage from "./pages/OrderPage";
 import * as MyRouter from "./lib/MyRouter";
 import * as MyLayout from "./lib/MyLayout";
+import { useState } from "react";
 
 const App = () => (
   <MyLayout.Layout>
@@ -16,30 +17,78 @@ const App = () => (
   </MyLayout.Layout>
 );
 
-export default App;
+// export default App;
 
-// import MyReact from "./lib/MyReact";
-// import { useState } from "react";
+// required: 브라우저가 validate해주는 속성
+// form - noValidate: 브라우저가 validate하지 못 하게 막음
+const LoginForm = () => {
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+  });
 
-// export default () => {
-//   const ref1 = MyReact.useRef(1);
-//   const ref2 = MyReact.useRef();
-//   const [state, setState] = useState(0); // 리렌더링을 위해 추가
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
 
-//   if (state > 2) {
-//     ref1.current = ref1.current + 1;
-//   }
+  const validate = (values) => {
+    const errors = {
+      email: "",
+      password: "",
+    };
 
-//   return (
-//     <>
-//       <button onClick={() => setState(state + 1)}>
-//         state 증가 (state: {state})
-//       </button>
-//       <div>{ref1.current}</div>
-//       <input ref={ref2} />
-//       <button onClick={() => console.log("input value", ref2.current.value)}>
-//         ref2 값 조회
-//       </button>
-//     </>
-//   );
-// };
+    if (!values.email) {
+      errors.email = "이메일을 입력하세요.";
+    }
+    if (!values.password) {
+      errors.password = "비밀번호를 입력하세요.";
+    }
+
+    return errors;
+  };
+
+  const handleChange = (e) => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const errors = validate(values);
+    setErrors(errors);
+    // 에러 메시지가 이미 존재할 경우 반환.
+    if (Object.values(errors).some(Boolean)) return;
+    console.log("Submitted", values);
+  };
+
+  return (
+    <form noValidate onSubmit={handleSubmit}>
+      <input
+        type="text"
+        name="email"
+        placeholder="Email"
+        value={values.email}
+        onChange={handleChange}
+        autoFocus
+      />
+      {errors.email && <span>{errors.email}</span>}
+      <br/>
+      <input
+        type="text"
+        name="password"
+        placeholder="Password"
+        value={values.password}
+        onChange={handleChange}
+      />
+      {errors.password && <span>{errors.password}</span>}
+      <br/>
+      <button onClick={handleSubmit}>제출</button>
+    </form>
+  );
+};
+
+export default LoginForm;
