@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import createEventEmitter from "shared/lib/EventEmitter";
 
 const MyReact = (function MyReact() {
@@ -114,7 +114,25 @@ const MyReact = (function MyReact() {
     return value;
   }
 
-  return { useState, useEffect, createContext, useContext, resetCursor, cleanupEffects };
+  function useRef(initialValue) {
+    if (!isInitialized[cursor]) {
+      memorizedStates[cursor] = { current: initialValue };
+      isInitialized[cursor] = true;
+    }
+    const memorizedState = memorizedStates[cursor];
+    cursor = cursor + 1; // 다음에 실행될 훅을 위해
+    return memorizedState;
+  }
+
+  return {
+    useState,
+    useEffect,
+    createContext,
+    useContext,
+    useRef,
+    resetCursor,
+    cleanupEffects,
+  };
 })();
 
 export default MyReact;
