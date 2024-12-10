@@ -18,7 +18,6 @@ const ProductPage = () => {
       const productList = await ProductApi.fetchProductList();
       setProductList(productList);
     } catch (e) {
-      finishLoading();
       openDialog(<ErrorDialog />);
       return;
     }
