@@ -1,12 +1,20 @@
 import React from "react";
 import FormControl from "../../components/FormControl";
+import MyReact from "../../lib/MyReact";
 // 1. htmlFor값과 input태그의 name값을 같게 해야 레이블 클릭 시 필드에 포커싱 가능(!) + id 설정도 필수.
 // 2. form에 id를 설정하고 이를 button에서 form 속성으로 지정하면, 해당 버튼을 클릭 시 폼이 제출됨(!)
 // 3. form 객체에 ref 속성 지정 -> 컴포넌트 렌더링, DOM에 마운트 후 this.formRef.current에 form element의 값이 저장됨.
 const OrderForm = ({ onSubmit }) => {
-  // 사용자가 입력한 값을 받아오는 함수
+  const formRef = MyReact.useRef(null);
+  // 해당 name 값을 가진 element의 value를 가져옴.
+  // 이 작업을 하기 위해서는 ref 객체를 사용해야 함.
   const getInputValueByName = (name) => {
-    // TODO: ref
+    if (!formRef.current) return;
+
+    const inputElement = formRef.current.elements.namedItem(name);
+    if (!inputElement) return "";
+
+    return inputElement.value;
   };
 
   const handleSubmit = (e) => {
@@ -32,7 +40,7 @@ const OrderForm = ({ onSubmit }) => {
       className="OrderForm"
       id="order-form"
       onSubmit={handleSubmit}
-      // ref={this.formRef}
+      ref={formRef}
     >
       <FormControl label="주소" htmlFor={"deliveryAddress"} required>
         <input
