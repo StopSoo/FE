@@ -3,7 +3,7 @@ import CartPage from "./pages/CartPage";
 import OrderPage from "./pages/OrderPage";
 import * as MyRouter from "./lib/MyRouter";
 import * as MyLayout from "./lib/MyLayout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const App = () => (
   <MyLayout.Layout>
@@ -32,6 +32,11 @@ const LoginForm = () => {
     password: "",
   });
 
+  const [touched, setTouched] = useState({
+    email: false,
+    password: false,
+  });
+
   const validate = (values) => {
     const errors = {
       email: "",
@@ -55,8 +60,21 @@ const LoginForm = () => {
     });
   };
 
+  const handleBlur = (e) => {
+    setTouched({
+      ...touched,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const nextTouched = {
+      email: true,
+      password: true,
+    };
+    setTouched(nextTouched);
 
     const errors = validate(values);
     setErrors(errors);
@@ -64,6 +82,10 @@ const LoginForm = () => {
     if (Object.values(errors).some(Boolean)) return;
     console.log("Submitted", values);
   };
+
+  useEffect(() => {
+    setErrors(validate(values))
+  }, [values]);
 
   return (
     <form noValidate onSubmit={handleSubmit}>
@@ -73,19 +95,21 @@ const LoginForm = () => {
         placeholder="Email"
         value={values.email}
         onChange={handleChange}
+        onBlur={handleBlur}
         autoFocus
       />
-      {errors.email && <span>{errors.email}</span>}
-      <br/>
+      {touched.email && errors.email && <span>{errors.email}</span>}
+      <br />
       <input
-        type="text"
+        type="password"
         name="password"
         placeholder="Password"
         value={values.password}
         onChange={handleChange}
+        onBlur={handleBlur}
       />
-      {errors.password && <span>{errors.password}</span>}
-      <br/>
+      {touched.password && errors.password && <span>{errors.password}</span>}
+      <br />
       <button onClick={handleSubmit}>제출</button>
     </form>
   );
