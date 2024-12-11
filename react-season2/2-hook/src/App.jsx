@@ -3,7 +3,6 @@ import CartPage from "./pages/CartPage";
 import OrderPage from "./pages/OrderPage";
 import * as MyRouter from "./lib/MyRouter";
 import * as MyLayout from "./lib/MyLayout";
-import { useEffect, useState } from "react";
 
 const App = () => (
   <MyLayout.Layout>
@@ -21,22 +20,9 @@ const App = () => (
 
 // required: 브라우저가 validate해주는 속성
 // form - noValidate: 브라우저가 validate하지 못 하게 막음
+import * as MyForm from "./lib/MyForm";
+
 const LoginForm = () => {
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
-  });
-
-  const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-  });
-
-  const [touched, setTouched] = useState({
-    email: false,
-    password: false,
-  });
-
   const validate = (values) => {
     const errors = {
       email: "",
@@ -53,39 +39,12 @@ const LoginForm = () => {
     return errors;
   };
 
-  const handleChange = (e) => {
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value,
+  const { values, touched, errors, handleBlur, handleChange, handleSubmit } =
+    MyForm.useForm({
+      initialValues: { email: "", password: "" },
+      validate,
+      onSubmit: (values) => console.log("Submitted", values),
     });
-  };
-
-  const handleBlur = (e) => {
-    setTouched({
-      ...touched,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const nextTouched = {
-      email: true,
-      password: true,
-    };
-    setTouched(nextTouched);
-
-    const errors = validate(values);
-    setErrors(errors);
-    // 에러 메시지가 이미 존재할 경우 반환.
-    if (Object.values(errors).some(Boolean)) return;
-    console.log("Submitted", values);
-  };
-
-  useEffect(() => {
-    setErrors(validate(values))
-  }, [values]);
 
   return (
     <form noValidate onSubmit={handleSubmit}>
