@@ -34,12 +34,25 @@ export const useForm = ({ initialValues, validate, onSubmit }) => {
     setErrors(errors);
     // 에러 메시지가 이미 존재할 경우 반환.
     if (Object.values(errors).some(Boolean)) return;
-    
+
     onSubmit(values);
   };
 
+  const getFieldProps = (name) => {
+    const value = values[name];
+    const onBlur = handleBlur;
+    const onChange = handleChange;
+
+    return {
+      name,
+      value,
+      onBlur,
+      onChange,
+    };
+  };
+
   useEffect(() => {
-    setErrors(validate(values))
+    setErrors(validate(values));
   }, [values]);
 
   return {
@@ -49,5 +62,6 @@ export const useForm = ({ initialValues, validate, onSubmit }) => {
     handleBlur,
     handleChange,
     handleSubmit,
+    getFieldProps,
   };
 };

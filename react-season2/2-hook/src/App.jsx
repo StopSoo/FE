@@ -39,7 +39,7 @@ const LoginForm = () => {
     return errors;
   };
 
-  const { values, touched, errors, handleBlur, handleChange, handleSubmit } =
+  const { values, touched, errors, handleBlur, handleChange, handleSubmit, getFieldProps } =
     MyForm.useForm({
       initialValues: { email: "", password: "" },
       validate,
@@ -50,22 +50,16 @@ const LoginForm = () => {
     <form noValidate onSubmit={handleSubmit}>
       <input
         type="text"
-        name="email"
         placeholder="Email"
-        value={values.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
         autoFocus
+        {...getFieldProps("email")}
       />
       {touched.email && errors.email && <span>{errors.email}</span>}
       <br />
       <input
         type="password"
-        name="password"
         placeholder="Password"
-        value={values.password}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        {...getFieldProps("password")}
       />
       {touched.password && errors.password && <span>{errors.password}</span>}
       <br />
