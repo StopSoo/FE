@@ -39,32 +39,22 @@ const LoginForm = () => {
     return errors;
   };
 
-  const { values, touched, errors, handleBlur, handleChange, handleSubmit, getFieldProps } =
-    MyForm.useForm({
-      initialValues: { email: "", password: "" },
-      validate,
-      onSubmit: (values) => console.log("Submitted", values),
-    });
+  const handleSubmit = (values) => console.log("Submitted", values);
 
   return (
-    <form noValidate onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Email"
-        autoFocus
-        {...getFieldProps("email")}
-      />
-      {touched.email && errors.email && <span>{errors.email}</span>}
+    <MyForm.Form
+      initialValues={{ email: "", password: "" }}
+      validate={validate}
+      onSubmit={handleSubmit}
+    >
+      <MyForm.Field name="email" type="text" />
+      <MyForm.ErrorMessage name="email" />
       <br />
-      <input
-        type="password"
-        placeholder="Password"
-        {...getFieldProps("password")}
-      />
-      {touched.password && errors.password && <span>{errors.password}</span>}
+      <MyForm.Field name="password" type="password" />
+      <MyForm.ErrorMessage name="password" />
       <br />
-      <button onClick={handleSubmit}>제출</button>
-    </form>
+      <button type="submit" onClick={handleSubmit}>제출</button>
+    </MyForm.Form>
   );
 };
 

@@ -12,6 +12,7 @@ module.exports = {
   },
   resolve: {
     extensions: [".js", ".jsx"],
+    fallback: { vm: false },
   },
   devtool: "source-map",
   devServer: {

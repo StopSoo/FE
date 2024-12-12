@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createContext, createElement, useContext, useEffect, useState } from "react";
 
 export const useForm = ({ initialValues, validate, onSubmit }) => {
   const [values, setValues] = useState(initialValues);
@@ -64,4 +64,36 @@ export const useForm = ({ initialValues, validate, onSubmit }) => {
     handleSubmit,
     getFieldProps,
   };
+};
+
+const formContext = createContext({});
+formContext.displayName = "FormContext";
+
+export const Form = ({ children, ...rest }) => {
+  const formValue = useForm(rest);
+
+  return (
+    <formContext.Provider value={formValue}>
+      <form noValidate onSubmit={formValue.handleSubmit}>
+        {children}
+      </form>
+    </formContext.Provider>
+  );
+};
+
+export const Field = ({ as = "input", children, ...rest }) => {
+  const { getFieldProps } = useContext(formContext);
+
+  return createElement(
+    as,
+    { ...rest, ...getFieldProps(rest.name) },
+    children
+  );
+};
+
+export const ErrorMessage = ({ name }) => {
+  const { touched, errors } = useContext(formContext);
+  if (!touched[name] || !errors[name]) return null;
+
+  return <span>{errors[name]}</span>;
 };
