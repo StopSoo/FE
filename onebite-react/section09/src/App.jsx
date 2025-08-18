@@ -1,9 +1,8 @@
 import './App.css'
-import Editor from './components/Editor';
-import Exam from './components/Exam';
-import Header from './components/Header';
-import List from './components/List';
-import { useRef, useState } from "react";
+import Editor from "./components/Editor";
+import Header from "./components/Header";
+import List from "./components/List";
+import { useRef, useState, useReducer } from "react";
 
 const mockData = [
   {
@@ -26,42 +25,57 @@ const mockData = [
   },
 ];
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "CREATE":
+      return [action.data, ...state];
+    case "UPDATE":
+      return state.map((item) =>
+        item.id === action.targetId ? { ...item, isDone: !state.isDone } : state
+      );
+    case "DELETE":
+      return state.filter((item) => item.id !== action.targetId);
+    default:
+      return state;
+  }
+}
+
 function App() {
-  const [todos, setTodos] = useState(mockData);
+  // useReducer(변환기 함수, 초기값)
+  const [todos, dispatch] = useReducer(reducer, mockData);
   const idRef = useRef(3); // id reference
 
   const onCreate = (content) => {
-    const newTodo = {
-      id: idRef.current++,
-      isDone: false,
-      content: content,
-      date: new Date().getTime(),
-    };
-    // 반드시 setState 함수를 이용해서 값을 변경해야 함(!)
-    setTodos([...todos, newTodo]);
+    dispatch({
+      type: "CREATE",
+      data: {
+        id: idRef.current++,
+        isDone: false,
+        content: content,
+        date: new Date().getTime(),
+      },
+    });
   };
 
   const onUpdate = (targetId) => {
-    // todos 값들 중에 targetId와 일치하는 id를 갖는 todo 아이템의 isDone 값울 변경한 배열
-
-    setTodos(
-      todos.map((todo) =>
-        todo.id === targetId ? { ...todo, isDone: !todo.isDone } : todo
-      )
-    );
+    dispatch({
+      type: "UPDATE",
+      targetId: targetId,
+    });
   };
 
   const onDelete = (targetId) => {
-    // todos 값들 중에 targetId와 일치하는 id를 갖는 todo 아이템을 삭제한 새로운 배열
-    setTodos(todos.filter((todo) => todo.id !== targetId));
+    dispatch({
+      type: "DELETE",
+      targetId: targetId,
+    });
   };
 
   return (
     <div className="App">
-      {/* <Header />
+      <Header />
       <Editor onCreate={onCreate} />
-      <List todos={todos} onUpdate={onUpdate} onDelete={onDelete} /> */}
-      <Exam />
+      <List todos={todos} onUpdate={onUpdate} onDelete={onDelete} />
     </div>
   );
 }
