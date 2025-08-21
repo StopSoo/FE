@@ -22,18 +22,9 @@ const List = ({ todos, onUpdate, onDelete }) => {
 
   const filteredData = getFilteredData();
 
-  const getAnalyzedData = () => {
-    const totalCount = todos.length;
-    const doneCount = todos.filter((todo) => todo.isDone).length;
-    const notDoneCount = totalCount - doneCount;
-
-    return {
-      totalCount,
-      doneCount,
-      notDoneCount
-    }
-  }
-  // (콜백함수, 의존성 배열: deps)
+  // useMemo(콜백 함수, 의존성 배열: deps)
+  // + useMemo 내 콜백 함수가 반환하는 값을 useMemo가 그대로 반환해주기 때문에 변수에 담아 사용할 수 있다. 
+  // deps로 전달한 변수를 기준으로 콜백 함수가 실행됨.
   const { totalCount, doneCount, notDoneCount } =
     useMemo(() => {
       const totalCount = todos.length;
