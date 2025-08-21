@@ -1,8 +1,11 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import "./List.css";
 import TodoItem from "./TodoItem";
+import { TodoStateContext } from "../App";
 
-const List = ({ todos, onUpdate, onDelete }) => {
+const List = () => {
+  const todos = useContext(TodoStateContext);
+
   const [search, setSearch] = useState("");
 
   const onChangeSearch = (e) => {
@@ -23,20 +26,19 @@ const List = ({ todos, onUpdate, onDelete }) => {
   const filteredData = getFilteredData();
 
   // useMemo(콜백 함수, 의존성 배열: deps)
-  // + useMemo 내 콜백 함수가 반환하는 값을 useMemo가 그대로 반환해주기 때문에 변수에 담아 사용할 수 있다. 
+  // + useMemo 내 콜백 함수가 반환하는 값을 useMemo가 그대로 반환해주기 때문에 변수에 담아 사용할 수 있다.
   // deps로 전달한 변수를 기준으로 콜백 함수가 실행됨.
-  const { totalCount, doneCount, notDoneCount } =
-    useMemo(() => {
-      const totalCount = todos.length;
-      const doneCount = todos.filter((todo) => todo.isDone).length;
-      const notDoneCount = totalCount - doneCount;
+  const { totalCount, doneCount, notDoneCount } = useMemo(() => {
+    const totalCount = todos.length;
+    const doneCount = todos.filter((todo) => todo.isDone).length;
+    const notDoneCount = totalCount - doneCount;
 
-      return {
-        totalCount,
-        doneCount,
-        notDoneCount
-      }
-    }, [todos]);
+    return {
+      totalCount,
+      doneCount,
+      notDoneCount,
+    };
+  }, [todos]);
 
   // const { totalCount, doneCount, notDoneCount } = getAnalyzedData();
 
@@ -55,14 +57,7 @@ const List = ({ todos, onUpdate, onDelete }) => {
       />
       <div className="todos_wrapper">
         {filteredData.map((todo) => {
-          return (
-            <TodoItem
-              key={todo.id}
-              {...todo}
-              onUpdate={onUpdate}
-              onDelete={onDelete}
-            />
-          );
+          return <TodoItem key={todo.id} {...todo} />;
         })}
       </div>
     </div>

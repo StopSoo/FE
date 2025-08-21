@@ -1,7 +1,10 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 import "./Editor.css";
+import { TodoDispatchContext } from "../App";
 
-const Editor = ({ onCreate }) => {
+const Editor = () => {
+  const { onCreate } = useContext(TodoDispatchContext);
+
   const [content, setContent] = useState("");
   const contentRef = useRef();
 
@@ -17,12 +20,12 @@ const Editor = ({ onCreate }) => {
     onCreate(content);
     setContent("");
   };
-  // 사용자가 엔터키를 눌렀을 때 todos가 등록되도록 하는 함수 
+  // 사용자가 엔터키를 눌렀을 때 todos가 등록되도록 하는 함수
   const onKeyDown = (e) => {
     if (e.keyCode === 13) {
       onSubmit();
     }
-  }
+  };
 
   return (
     <div className="Editor">

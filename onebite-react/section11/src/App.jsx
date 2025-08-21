@@ -1,8 +1,15 @@
-import './App.css'
+import { useMemo } from "react";
+import "./App.css";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
 import List from "./components/List";
-import { useRef, useState, useReducer, useCallback } from "react";
+import {
+  useRef,
+  useState,
+  useReducer,
+  useCallback,
+  createContext,
+} from "react";
 
 const mockData = [
   {
@@ -39,6 +46,9 @@ function reducer(state, action) {
       return state;
   }
 }
+// context qnsflgkrl
+export const TodoStateContext = createContext();
+export const TodoDispatchContext = createContext();
 
 function App() {
   // useReducer(변환기 함수, 초기값)
@@ -72,11 +82,20 @@ function App() {
     });
   }, []);
 
+  const memoizedDispatch = useMemo(() => {
+    // 함수들이 재생성되지 않도록 함.
+    return { onCreate, onUpdate, onDelete };
+  }, []);
+
   return (
     <div className="App">
       <Header />
-      <Editor onCreate={onCreate} />
-      <List todos={todos} onUpdate={onUpdate} onDelete={onDelete} />
+      <TodoStateContext.Provider value={todos}>
+        <TodoDispatchContext.Provider value={memoizedDispatch}>
+          <Editor />
+          <List />
+        </TodoDispatchContext.Provider>
+      </TodoStateContext.Provider>
     </div>
   );
 }
