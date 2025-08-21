@@ -2,7 +2,7 @@ import './App.css'
 import Editor from "./components/Editor";
 import Header from "./components/Header";
 import List from "./components/List";
-import { useRef, useState, useReducer } from "react";
+import { useRef, useState, useReducer, useCallback } from "react";
 
 const mockData = [
   {
@@ -45,7 +45,7 @@ function App() {
   const [todos, dispatch] = useReducer(reducer, mockData);
   const idRef = useRef(3); // id reference
 
-  const onCreate = (content) => {
+  const onCreate = useCallback((content) => {
     dispatch({
       type: "CREATE",
       data: {
@@ -55,21 +55,22 @@ function App() {
         date: new Date().getTime(),
       },
     });
-  };
+  }, []);
 
-  const onUpdate = (targetId) => {
+  const onUpdate = useCallback((targetId) => {
     dispatch({
       type: "UPDATE",
       targetId: targetId,
     });
-  };
-
-  const onDelete = (targetId) => {
+  }, []);
+  // useCallback(불필요하게 재생성되지 않도록 방지하고 싶은 함수, deps)
+  // onDelete 함수는 컴포넌트가 마운트되었을 때만 한 번 생성되고, 그 이후로는 리렌더링마다 생성되는 일은 X.
+  const onDelete = useCallback((targetId) => {
     dispatch({
       type: "DELETE",
       targetId: targetId,
     });
-  };
+  }, []);
 
   return (
     <div className="App">
