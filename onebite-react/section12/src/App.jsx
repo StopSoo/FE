@@ -1,13 +1,11 @@
 import "./App.css";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { useReducer } from "react";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import New from "./pages/New";
 import Diary from "./pages/Diary";
 import Notfound from "./pages/Notfound";
-import Button from "./components/Button";
-import Header from "./components/Header";
-
-import { getEmotionImage } from "./util/get-emotion-image";
+import Edit from "./pages/Edit";
 // 1. "/": 모든 일기를 조회하는 Home 페이지
 // 2. "/new": 새로운 일기를 작성하는 New 페이지
 // 3. "/diary": 일기를 상세히 조회하는 Diary 페이지
@@ -19,45 +17,42 @@ import { getEmotionImage } from "./util/get-emotion-image";
 // 정리 1) 링크가 필요할 때는 Link 컴포넌트 활용하기
 // 정리 2) 이벤트 핸들러 함수에서 페이지 이동이 필요할 때는 useNavigate를 활용하기.
 // 정리 3) Link 컴포넌트와 useNavigate 모두 CSR을 이용한다.
+const mockData = [
+  {
+    id: 1,
+    createdDate: new Date().getTime(),
+    emotionId: 1,
+    content: "1번 일기 내용",
+  },
+  {
+    id: 2,
+    createdDate: new Date().getTime(),
+    emotionId: 2,
+    content: "2번 일기 내용",
+  },
+  {
+    id: 3,
+    createdDate: new Date().getTime(),
+    emotionId: 3,
+    content: "3번 일기 내용",
+  },
+];
+
+function reducer(state, action) {
+  return state;
+}
+
 function App() {
-  const navigate = useNavigate();
+  // useReducer(reducer 함수, data의 초기값)
+  const [data, dispatch] = useReducer(reducer, mockData);
 
   return (
     <>
-      <Header
-        title={"Header"}
-        leftChild={<Button text={"Left"} />}
-        rightChild={<Button text={"Right"} />}
-      />
-
-      <Button
-        text={"버튼"}
-        type={"DEFAULT"}
-        onClick={() => {
-          console.log("버튼 클릭!");
-        }}
-      />
-
-      <Button
-        text={"버튼"}
-        type={"POSITIVE"}
-        onClick={() => {
-          console.log("버튼 클릭!");
-        }}
-      />
-
-      <Button
-        text={"버튼"}
-        type={"NEGATIVE"}
-        onClick={() => {
-          console.log("버튼 클릭!");
-        }}
-      />
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/new" element={<New />} />
         <Route path="/diary/:id" element={<Diary />} />
+        <Route path="/edit/:id" element={<Edit />} />
         <Route path="*" element={<Notfound />} />
       </Routes>
     </>
